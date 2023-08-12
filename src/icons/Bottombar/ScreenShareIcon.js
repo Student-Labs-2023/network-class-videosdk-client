@@ -1,17 +1,11 @@
 import * as React from "react";
 
-const ScreenShareIcon = (props) => (
-  <svg
-    width={24}
-    height={24}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <path
-      d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10a2 2 0 0 0 2 2H1c-.55 0-1 .45-1 1s.45 1 1 1h22c.55 0 1-.45 1-1s-.45-1-1-1h-3Zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l3.61 3.36c.21.2.21.53 0 .73L13 14.47Z"
-      fill={props.fillcolor}
-    />
+const ScreenShareIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" fill="none">
+    <path d="M4.29337 1.5H11.7C14.0734 1.5 14.6667 2.1675 14.6667 4.83V9.5775C14.6667 12.2475 14.0734 12.9075 11.7067 12.9075H4.29337C1.92671 12.915 1.33337 12.2475 1.33337 9.585V4.83C1.33337 2.1675 1.92671 1.5 4.29337 1.5Z" stroke="#5F6A77" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8 13V17" stroke="#5F6A77" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 11L14 11" stroke="#5F6A77" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4 17H12" stroke="#5F6A77" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 );
 

@@ -1,36 +1,10 @@
 import React from "react";
 
-function RecordingIcon(props) {
+function RecordingIcon() {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill="none"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <mask
-        id="mask0_24_98"
-        style={{ maskType: "alpha" }}
-        width="24"
-        height="24"
-        x="0"
-        y="0"
-        maskUnits="userSpaceOnUse"
-      >
-        <path fill="#D9D9D9" d="M0 0H24V24H0z"></path>
-      </mask>
-      <g mask="url(#mask0_24_98)">
-        <circle cx="12" cy="12" r="5" fill={props.fillcolor}></circle>
-        <circle
-          cx="12"
-          cy="12"
-          r="9"
-          stroke={props.fillcolor}
-          strokeWidth="2"
-        ></circle>
-      </g>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M11.97 22C17.4928 22 21.97 17.5228 21.97 12C21.97 6.47715 17.4928 2 11.97 2C6.44712 2 1.96997 6.47715 1.96997 12C1.96997 17.5228 6.44712 22 11.97 22Z" fill="white" stroke="#5F6A77" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 16.23C14.3362 16.23 16.23 14.3362 16.23 12C16.23 9.66386 14.3362 7.77002 12 7.77002C9.66386 7.77002 7.77002 9.66386 7.77002 12C7.77002 14.3362 9.66386 16.23 12 16.23Z" fill="white" stroke="#5F6A77" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   );
 }

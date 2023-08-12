@@ -602,7 +602,9 @@ export function BottomBar({
         bgColor="bg-red-150"
         onClick={() => {
           leave();
+          console.log('log');
           setIsMeetingLeft(true);
+          console.log('log');
         }}
         tooltip="Leave Meeting"
       />
