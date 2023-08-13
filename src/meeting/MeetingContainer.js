@@ -261,11 +261,11 @@ export function MeetingContainer({
 
   return (
     <div className="fixed inset-0">
-      <div ref={containerRef} className="h-full flex flex-col bg-gray-800">
+      <div ref={containerRef} className="h-full flex flex-col bg-white">
         {typeof localParticipantAllowedJoin === "boolean" ? (
           localParticipantAllowedJoin ? (
             <>
-              <div className={` flex flex-1 flex-row bg-gray-800 `}>
+              <div className={` flex flex-1 flex-row bg-white `}>
                 <div className={`flex flex-1 `}>
                   {isPresenting ? (
                     <PresenterView height={containerHeight - bottomBarHeight} />
