@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import TopBar from "./components/TopBar";
+import { ShowParticipants } from "./features/ShowParticipants";
 import { BottomBar } from "./components/BottomBar";
 import { SidebarConatiner } from "../components/sidebar/SidebarContainer";
 import MemorizedParticipantView from "./components/ParticipantView";
@@ -308,6 +309,7 @@ export function MeetingContainer({
           subTitle={meetingError.message}
         />
       </div>
+      <ShowParticipants/>
     </div>
   );
 }
