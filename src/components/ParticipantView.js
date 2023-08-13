@@ -457,6 +457,7 @@ export function ParticipantView({ participantId }) {
         setMouseOver(false);
       }}
       className={`h-full w-full  bg-gray-5 relative overflow-hidden rounded-lg video-cover`}
+      style={{ background: "#D5DEE8" }}
     >
       <audio ref={micRef} autoPlay muted={isLocal} />
       {webcamOn ? (
@@ -483,6 +484,7 @@ export function ParticipantView({ participantId }) {
         <div className="h-full w-full flex items-center justify-center">
           <div
             className={`z-10 flex items-center justify-center rounded-full bg-gray-1 2xl:h-[92px] h-[52px] 2xl:w-[92px] w-[52px]`}
+            style={{ background: "#5F6A77" }}
           >
             <p className="text-2xl text-white">
               {String(displayName).charAt(0).toUpperCase()}
