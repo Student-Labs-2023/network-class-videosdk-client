@@ -36,16 +36,16 @@ function ParticipantGrid({ participantIds, isPresenting }) {
 
   return (
     <div
-      className={`flex flex-col md:flex-row flex-grow m-3 items-center justify-center ${
+      className={`flex flex-col md:flex-row flex-grow mb-5 items-center justify-center ${
         participantIds.length < 2 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-2"
+          ? ""
           : participantIds.length < 3 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-8"
+          ? ""
           : participantIds.length < 4 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-4"
+          ? ""
           : participantIds.length > 4 && !sideBarMode && !isPresenting
-          ? "md:px-14"
-          : "md:px-0"
+          ? ""
+          : ""
       }`}
     >
       <div className="flex flex-col w-full h-full">
