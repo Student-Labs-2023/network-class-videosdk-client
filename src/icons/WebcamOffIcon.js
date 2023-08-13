@@ -1,28 +1,11 @@
 import * as React from "react";
 
 const WebcamOffIcon = (props) => (
-  <svg
-    width={24}
-    height={24}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <g clipPath="url(#a)">
-      <path
-        d="M22.359 17.84a1.196 1.196 0 0 0 .548-1.017V7.786a1.36 1.36 0 0 0-.548-1.017.97.97 0 0 0-1.095 0L17.43 8.804a3.4 3.4 0 0 0-3.286-3.286h-4.052L22.14 17.949c-.001-.11.108-.11.219-.11Zm.219 3.841-5.257-5.424L6.916 5.517 2.863 1.34a1.036 1.036 0 0 0-1.533 0 1.117 1.117 0 0 0 0 1.583l2.519 2.596A3.379 3.379 0 0 0 1 8.91v6.78a3.386 3.386 0 0 0 .945 2.415 3.175 3.175 0 0 0 2.341.975h9.857a2.84 2.84 0 0 0 2.082-.791l4.819 4.972a1.06 1.06 0 0 0 1.533 0 1.144 1.144 0 0 0 0-1.582v.002Z"
-        fill={props.fillcolor ? props.fillcolor : "#050A0E"}
-      />
-    </g>
-    <defs>
-      <clipPath id="a">
-        <path
-          fill={props.fillcolor}
-          transform="translate(1 1)"
-          d="M0 0h21.905v22.59H0z"
-        />
-      </clipPath>
-    </defs>
+  <svg xmlns="http://www.w3.org/2000/svg" width="29" height="25" viewBox="0 0 29 25" fill="none">
+    <path d="M4.68182 19.8636H3.45455C2.10455 19.8636 1 18.9227 1 17.7727V5.22726C1 4.07726 2.10455 3.13635 3.45455 3.13635H18.1818C19.5318 3.13635 20.6364 4.07726 20.6364 5.22726V6.27272" stroke="#F95A39" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M27.3864 6.79547C27.7546 7.00456 28.0001 7.31822 28.0001 7.73641V15.2636C28.0001 15.9954 27.141 16.5182 26.4046 16.3091L20.6364 14.6364V17.7727C20.6364 18.9227 19.5319 19.8637 18.1819 19.8637H12.0455" stroke="#F95A39" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7.74984 10.4545C8.76655 10.4545 9.59075 9.75238 9.59075 8.8863C9.59075 8.02021 8.76655 7.31812 7.74984 7.31812C6.73314 7.31812 5.90894 8.02021 5.90894 8.8863C5.90894 9.75238 6.73314 10.4545 7.74984 10.4545Z" stroke="#F95A39" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M28 1L1 24" stroke="#F95A39" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 );
 

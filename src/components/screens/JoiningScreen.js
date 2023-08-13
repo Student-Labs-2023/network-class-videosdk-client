@@ -7,6 +7,7 @@ import ConfirmBox from "../ConfirmBox";
 import { Constants } from "@videosdk.live/react-sdk";
 import useIsMobile from "../../hooks/useIsMobile";
 import { createPopper } from "@popperjs/core";
+import styled from 'styled-components';
 import WebcamOffIcon from "../../icons/WebcamOffIcon";
 import WebcamOnIcon from "../../icons/Bottombar/WebcamOnIcon";
 import MicOffIcon from "../../icons/MicOffIcon";
@@ -283,6 +284,17 @@ export function JoiningScreen({
     getDevices({ micEnabled, webcamEnabled });
   }, []);
 
+  const ButtonWithTooltipLayout = styled.button`
+    display: flex;
+    width: 46px;
+    height: 46px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 0px 2px 0px #C5CCD5;  
+  `
+
   const ButtonWithTooltip = ({ onClick, onState, OnIcon, OffIcon, mic }) => {
     const [tooltipShow, setTooltipShow] = useState(false);
     const btnRef = useRef();
@@ -301,22 +313,19 @@ export function JoiningScreen({
     return (
       <>
         <div>
-          <button
+          <ButtonWithTooltipLayout
             ref={btnRef}
             onMouseEnter={openTooltip}
             onMouseLeave={closeTooltip}
             onClick={onClick}
-            className={`rounded-full min-w-auto w-11 h-11 flex items-center justify-center ${
-              onState ? "bg-white" : "bg-red-650 text-white"
-            }`}
             disabled={meetingMode === Constants.modes.VIEWER}
           >
             {onState ? (
-              <OnIcon fillcolor={onState ? "#050A0E" : "#fff"} />
+              <OnIcon fillcolor={onState ? "#050A0E" : "#F95A39"} />
             ) : (
-              <OffIcon fillcolor={onState ? "#050A0E" : "#fff"} />
+              <OffIcon fillcolor={onState ? "#050A0E" : "#F95A39"} />
             )}
-          </button>
+          </ButtonWithTooltipLayout>
         </div>
         <div
           style={{ zIndex: 999 }}
