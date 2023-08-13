@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
+import TopBar from "./components/TopBar";
 import { BottomBar } from "./components/BottomBar";
 import { SidebarConatiner } from "../components/sidebar/SidebarContainer";
 import MemorizedParticipantView from "./components/ParticipantView";
@@ -265,6 +266,7 @@ export function MeetingContainer({
         {typeof localParticipantAllowedJoin === "boolean" ? (
           localParticipantAllowedJoin ? (
             <>
+              <TopBar/>
               <div className={` flex flex-1 flex-row bg-white `}>
                 <div className={`flex flex-1 `}>
                   {isPresenting ? (
