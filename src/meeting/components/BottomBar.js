@@ -301,7 +301,7 @@ export function BottomBar({
                             <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
-                                color: mMeeting.localMicOn ? "white" : "black",
+                                color: mMeeting.localMicOn ? "#5F6A77" : "#5F6A77",
                               }}
                             />
                           </button>
@@ -455,7 +455,7 @@ export function BottomBar({
                             <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
-                                color: localWebcamOn ? "white" : "black",
+                                color: localWebcamOn ? "#5F6A77" : "#5F6A77",
                               }}
                             />
                           </button>
