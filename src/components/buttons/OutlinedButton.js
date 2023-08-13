@@ -41,7 +41,7 @@ export const OutlinedButton = ({
 
   const intervalRef = useRef();
 
-  const iconSize = 24 * (large ? 1.7 : 1);
+  const iconSize = 34;
 
   const startBlinking = () => {
     intervalRef.current = setInterval(() => {
@@ -90,8 +90,6 @@ export const OutlinedButton = ({
       >
         <div
           className={`flex items-center justify-center  rounded-lg ${
-            bgColor ? `${bgColor}` : isFocused ? "bg-white" : "bg-gray-750"
-          } ${
             mouseOver
               ? "border-2 border-transparent border-solid"
               : borderColor
@@ -101,9 +99,12 @@ export const OutlinedButton = ({
               : "border-2 border-solid border-[#ffffff33]"
           } md:m-2 m-1`}
           style={{
+            minWidth: 46,
+            height: 46,
             transition: "all 200ms",
             transitionTimingFunction: "ease-in-out",
             opacity: blinkingState,
+            backgroundColor: bgColor ? `${bgColor}`: "#fff"
           }}
         >
           <button
@@ -163,19 +164,19 @@ export const OutlinedButton = ({
                     <Icon
                       style={{
                         color: isFocused
-                          ? focusIconColor || "#1C1F2E"
+                          ? focusIconColor || "#5F6A77"
                           : color
                           ? color
-                          : "#fff",
+                          : "#5F6A77",
                         height: iconSize,
                         width: iconSize,
                       }}
                       fillcolor={
                         isFocused
-                          ? focusIconColor || "#1C1F2E"
+                          ? focusIconColor || "#5F6A77"
                           : color
                           ? color
-                          : "#fff"
+                          : "#5F6A77"
                       }
                     />
                     {badge && (

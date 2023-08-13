@@ -599,7 +599,7 @@ export function BottomBar({
     return (
       <OutlinedButton
         Icon={EndIcon}
-        bgColor="bg-red-150"
+        bgColor="#F95A39"
         onClick={() => {
           leave();
           console.log('log');
