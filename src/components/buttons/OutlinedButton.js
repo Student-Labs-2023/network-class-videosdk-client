@@ -1,6 +1,12 @@
 import Lottie from "lottie-react";
 import { useEffect, useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
+import styled from 'styled-components';
+
+const ButtonContainer = styled.div`
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px 0px #C5CCD5;
+`
 
 export const OutlinedButton = ({
   bgColor,
@@ -88,7 +94,7 @@ export const OutlinedButton = ({
           setMouseDown(false);
         }}
       >
-        <div
+        <ButtonContainer
           className={`flex items-center justify-center  rounded-lg ${
             mouseOver
               ? "border-2 border-transparent border-solid"
@@ -104,7 +110,7 @@ export const OutlinedButton = ({
             transition: "all 200ms",
             transitionTimingFunction: "ease-in-out",
             opacity: blinkingState,
-            backgroundColor: bgColor ? `${bgColor}`: "#fff"
+            backgroundColor: bgColor ? `${bgColor}`: "#fff",
           }}
         >
           <button
@@ -198,7 +204,7 @@ export const OutlinedButton = ({
             ) : null}
           </button>
           {typeof renderRightComponent === "function" && renderRightComponent()}
-        </div>
+        </ButtonContainer>
       </div>
       <div
         style={{ zIndex: 999 }}

@@ -246,7 +246,7 @@ export default function SettingDialogueBox({
                                               <ChevronDownIcon
                                                 className="h-4 w-4"
                                                 style={{
-                                                  color: "white",
+                                                  color: "#5F6A77",
                                                 }}
                                               />
                                             </button>
@@ -364,7 +364,7 @@ export default function SettingDialogueBox({
                                               <ChevronDownIcon
                                                 className="h-4 w-4"
                                                 style={{
-                                                  color: "white",
+                                                  color: "#5F6A77",
                                                 }}
                                               />
                                             </button>
