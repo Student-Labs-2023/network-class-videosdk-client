@@ -29,6 +29,8 @@ import { createPopper } from "@popperjs/core";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
 
+import styled from 'styled-components';
+
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
 
@@ -669,13 +671,27 @@ export function BottomBar({
     );
   };
 
+  const MeetingIdCopyBTNContainer = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 46px;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0px 0px 2px 0px #C5CCD5;
+  `
+
+  const MeetingIdCopyTitle = styled.h1`
+    color: #5F6A77;
+  `
+
   const MeetingIdCopyBTN = () => {
     const { meetingId } = useMeeting();
     const [isCopied, setIsCopied] = useState(false);
     return (
       <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0">
-        <div className="flex border-2 border-gray-850 p-2 rounded-md items-center justify-center">
-          <h1 className="text-white text-base ">{meetingId}</h1>
+        <MeetingIdCopyBTNContainer>
+          <MeetingIdCopyTitle>{meetingId}</MeetingIdCopyTitle>
           <button
             className="ml-2"
             onClick={() => {
@@ -689,10 +705,10 @@ export function BottomBar({
             {isCopied ? (
               <CheckIcon className="h-5 w-5 text-green-400" />
             ) : (
-              <ClipboardIcon className="h-5 w-5 text-white" />
+              <ClipboardIcon className="h-5 w-5 text-gray-400" />
             )}
           </button>
-        </div>
+        </MeetingIdCopyBTNContainer>
       </div>
     );
   };
@@ -823,7 +839,12 @@ export function BottomBar({
       </Transition>
     </div>
   ) : (
-    <div className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden">
+    <div 
+      className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden" 
+      style={{ 
+        background: "#F9FAFE" 
+      }}
+    >
       <MeetingIdCopyBTN />
 
       <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
