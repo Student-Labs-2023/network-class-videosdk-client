@@ -31,7 +31,8 @@ export function MeetingContainer({
   const { useRaisedHandParticipants } = useMeetingAppContext();
   const { getVideoTrack } = useMediaStream();
 
-  const bottomBarHeight = 60;
+  const topBarHeight = 51;
+  const bottomBarHeight = 70;
 
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -271,7 +272,7 @@ export function MeetingContainer({
               <div className={` flex flex-1 flex-row bg-white `}>
                 <div className={`flex flex-1 `}>
                   {isPresenting ? (
-                    <PresenterView height={containerHeight - bottomBarHeight} />
+                    <PresenterView height={containerHeight - topBarHeight} />
                   ) : null}
                   {isPresenting && isMobile ? null : (
                     <MemorizedParticipantView isPresenting={isPresenting} />
@@ -279,7 +280,7 @@ export function MeetingContainer({
                 </div>
 
                 <SidebarConatiner
-                  height={containerHeight - bottomBarHeight}
+                  height={containerHeight - bottomBarHeight - 51}
                   sideBarContainerWidth={sideBarContainerWidth}
                 />
               </div>

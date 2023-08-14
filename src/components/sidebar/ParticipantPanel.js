@@ -95,7 +95,7 @@ export function ParticipantPanel({ panelHeight }) {
     >
       <div
         className="flex flex-col flex-1"
-        style={{ height: panelHeight - 100 }}
+        style={{ height: panelHeight - 100}}
       >
         {[...participants.keys()].map((participantId, index) => {
           const { raisedHand, participantId: peerId } = part[index];

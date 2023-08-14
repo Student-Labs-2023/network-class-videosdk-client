@@ -10,6 +10,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useMediaQuery } from "react-responsive";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 
+import styled from 'styled-components';
+
 const SideBarTabView = ({
   height,
   sideBarContainerWidth,
@@ -27,7 +29,7 @@ const SideBarTabView = ({
     <div
       className="bg-gray-800"
       style={{
-        height,
+        height: height,
         width: sideBarContainerWidth,
         paddingTop: panelPadding,
         paddingLeft: panelPadding,
