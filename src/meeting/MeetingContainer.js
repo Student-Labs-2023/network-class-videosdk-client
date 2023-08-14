@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
+import TopBar from "./components/TopBar";
+import { ShowParticipants } from "./features/ShowParticipants";
 import { BottomBar } from "./components/BottomBar";
 import { SidebarConatiner } from "../components/sidebar/SidebarContainer";
 import MemorizedParticipantView from "./components/ParticipantView";
@@ -29,7 +31,8 @@ export function MeetingContainer({
   const { useRaisedHandParticipants } = useMeetingAppContext();
   const { getVideoTrack } = useMediaStream();
 
-  const bottomBarHeight = 60;
+  const topBarHeight = 51;
+  const bottomBarHeight = 70;
 
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -265,10 +268,11 @@ export function MeetingContainer({
         {typeof localParticipantAllowedJoin === "boolean" ? (
           localParticipantAllowedJoin ? (
             <>
+              <TopBar/>
               <div className={` flex flex-1 flex-row bg-white `}>
                 <div className={`flex flex-1 `}>
                   {isPresenting ? (
-                    <PresenterView height={containerHeight - bottomBarHeight} />
+                    <PresenterView height={containerHeight - topBarHeight} />
                   ) : null}
                   {isPresenting && isMobile ? null : (
                     <MemorizedParticipantView isPresenting={isPresenting} />
@@ -276,7 +280,7 @@ export function MeetingContainer({
                 </div>
 
                 <SidebarConatiner
-                  height={containerHeight - bottomBarHeight}
+                  height={containerHeight - bottomBarHeight - 51}
                   sideBarContainerWidth={sideBarContainerWidth}
                 />
               </div>
@@ -306,6 +310,7 @@ export function MeetingContainer({
           subTitle={meetingError.message}
         />
       </div>
+      <ShowParticipants/>
     </div>
   );
 }

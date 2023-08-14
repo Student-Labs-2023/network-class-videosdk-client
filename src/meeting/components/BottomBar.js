@@ -640,36 +640,36 @@ export function BottomBar({
     );
   };
 
-  const ParticipantsBTN = ({ isMobile, isTab }) => {
-    const { participants } = useMeeting();
-    return isMobile || isTab ? (
-      <MobileIconButton
-        tooltipTitle={"Participants"}
-        isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
-        buttonText={"Participants"}
-        disabledOpacity={1}
-        Icon={ParticipantsIcon}
-        onClick={() => {
-          setSideBarMode((s) =>
-            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
-          );
-        }}
-        badge={`${new Map(participants)?.size}`}
-      />
-    ) : (
-      <OutlinedButton
-        Icon={ParticipantsIcon}
-        onClick={() => {
-          setSideBarMode((s) =>
-            s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
-          );
-        }}
-        isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
-        tooltip={"View Participants"}
-        badge={`${new Map(participants)?.size}`}
-      />
-    );
-  };
+  // const ParticipantsBTN = ({ isMobile, isTab }) => {
+  //   const { participants } = useMeeting();
+  //   return isMobile || isTab ? (
+  //     <MobileIconButton
+  //       tooltipTitle={"Participants"}
+  //       isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
+  //       buttonText={"Participants"}
+  //       disabledOpacity={1}
+  //       Icon={ParticipantsIcon}
+  //       onClick={() => {
+  //         setSideBarMode((s) =>
+  //           s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
+  //         );
+  //       }}
+  //       badge={`${new Map(participants)?.size}`}
+  //     />
+  //   ) : (
+  //     <OutlinedButton
+  //       Icon={ParticipantsIcon}
+  //       onClick={() => {
+  //         setSideBarMode((s) =>
+  //           s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
+  //         );
+  //       }}
+  //       isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
+  //       tooltip={"View Participants"}
+  //       badge={`${new Map(participants)?.size}`}
+  //     />
+  //   );
+  // };
 
   const MeetingIdCopyBTNContainer = styled.div`
     display: flex;
@@ -813,10 +813,11 @@ export function BottomBar({
                             ) : icon === BottomBarButtonTypes.CHAT ? (
                               <ChatBTN isMobile={isMobile} isTab={isTab} />
                             ) : icon === BottomBarButtonTypes.PARTICIPANTS ? (
-                              <ParticipantsBTN
-                                isMobile={isMobile}
-                                isTab={isTab}
-                              />
+                              // <ParticipantsBTN
+                              //   isMobile={isMobile}
+                              //   isTab={isTab}
+                              // />
+                              <></>
                             ) : icon ===
                               BottomBarButtonTypes.MEETING_ID_COPY ? (
                               <MeetingIdCopyBTN
@@ -854,11 +855,11 @@ export function BottomBar({
         <WebCamBTN />
         <ScreenShareBTN isMobile={isMobile} isTab={isTab} />
         <PipBTN isMobile={isMobile} isTab={isTab} />
-        <LeaveBTN />
+        <ChatBTN isMobile={isMobile} isTab={isTab} />
       </div>
       <div className="flex items-center justify-center">
-        <ChatBTN isMobile={isMobile} isTab={isTab} />
-        <ParticipantsBTN isMobile={isMobile} isTab={isTab} />
+        <LeaveBTN />
+        {/* <ParticipantsBTN isMobile={isMobile} isTab={isTab} /> */}
       </div>
     </div>
   );
