@@ -1,19 +1,10 @@
 import * as React from "react";
 
-const ChatIcon = (props) => (
-  <svg
-    width={24}
-    height={24}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M12 2.25c-2.66 0-5.276.195-7.833.57C2 3.139.5 5.038.5 7.17v6.59c0 2.132 1.5 4.031 3.667 4.349.96.141 1.929.256 2.904.346v4.332a.821.821 0 0 0 1.402.58l4.583-4.581a.428.428 0 0 1 .291-.123 53.608 53.608 0 0 0 6.486-.554C22 17.79 23.5 15.892 23.5 13.76V7.169c0-2.133-1.5-4.03-3.667-4.348A53.825 53.825 0 0 0 12 2.25ZM7.893 9.232a1.232 1.232 0 1 0 0 2.464 1.232 1.232 0 0 0 0-2.464Zm2.875 1.232a1.232 1.232 0 1 1 2.465 0 1.232 1.232 0 0 1-2.465 0Zm5.34-1.232a1.232 1.232 0 1 0 0 2.465 1.232 1.232 0 0 0 0-2.465Z"
-      fill={props.fillcolor}
-    />
+const ChatIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
+    <path d="M6.43555 7.69336H19.4808" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6.43555 12.042H16.2195" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24.9164 10.9549V5.51933C24.9164 3.12769 22.9596 1.1709 20.568 1.1709H5.34843C2.9568 1.1709 1 3.12769 1 5.51933V21.3911C1 22.2608 1.65227 22.9131 2.52195 22.9131C2.9568 22.9131 3.28293 22.8043 3.60906 22.4782L6.21812 19.8692C7.08781 18.9995 8.17492 18.5646 9.26202 18.5646H11.8711H20.568C22.9596 18.5646 24.9164 16.6078 24.9164 14.2162V10.9549Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 );
 
