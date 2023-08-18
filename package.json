@@ -23,8 +23,15 @@
   "devDependencies": {
     "@tailwindcss/typography": "0.5.0-alpha.2",
     "autoprefixer": "^10.3.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^16.3.1",
     "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^2.2.4",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-notifier": "^1.15.0"
   },
   "scripts": {
     "start": "react-scripts start",

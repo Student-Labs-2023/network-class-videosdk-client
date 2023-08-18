@@ -30,6 +30,8 @@ const Logo = styled.a`
 `;
 
 const Header = () => {
+
+  console.log(process.env.NETWORKCLASS_URL);
   return (
     <Container>
       <Left>
@@ -39,7 +41,7 @@ const Header = () => {
             <path d="M24 27.4998C24 26.119 25.1193 24.9998 26.5 24.9998V24.9998C27.8807 24.9998 29 26.119 29 27.4998V27.4998C29 28.8805 27.8807 29.9998 26.5 29.9998V29.9998C25.1193 29.9998 24 28.8805 24 27.4998V27.4998Z" fill="white"/>
             <rect x="10" y="10.9998" width="5" height="5" rx="2.5" fill="white"/>
         </svg>
-        <Logo href="https://network-class.pages.dev/lobby">Сетевой учебный класс</Logo>
+        <Logo href={`${process.env.REACT_APP_NETWORKCLASS_URL}/lobby`}>Сетевой учебный класс</Logo>
       </Left>
     </Container>
   );
