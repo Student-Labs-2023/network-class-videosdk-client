@@ -13,25 +13,26 @@ function ParticipantListItem({ participantId, raisedHand }) {
     useParticipant(participantId);
 
   return (
-    <div className="mt-2 m-2 p-2 bg-gray-700 rounded-lg mb-0">
+    <div className="mt-2 m-2 p-2 bg-white rounded-lg mb-0">
       <div className="flex flex-1 items-center justify-center relative">
         <div
           style={{
-            color: "#212032",
-            backgroundColor: "#757575",
+            color: "#fff",
+            backgroundColor: "#5f6a77",
           }}
-          className="h-10 w-10 text-lg mt-0 rounded overflow-hidden flex relative items-center justify-center"
+          className="h-11 w-11 text-lg mt-0 rounded-lg overflow-hidden flex relative items-center justify-center"
         >
           {displayName?.charAt(0).toUpperCase()}
         </div>
         <div className="ml-2 mr-1 flex flex-1">
-          <p className="text-base text-white overflow-hidden whitespace-pre-wrap overflow-ellipsis">
-            {isLocal ? "You" : nameTructed(displayName, 15)}
+          <p className="text-base text-black overflow-hidden whitespace-pre-wrap overflow-ellipsis">
+            {/* {isLocal ? "You" : nameTructed(displayName, 15)} */}
+            {nameTructed(displayName, 15)}
           </p>
         </div>
         {raisedHand && (
           <div className="flex items-center justify-center m-1 p-1">
-            <RaiseHand fillcolor={"#fff"} />
+            <RaiseHand/>
           </div>
         )}
         <div className="m-1 p-1">{micOn ? <MicOnIcon /> : <MicOffIcon />}</div>
@@ -90,7 +91,7 @@ export function ParticipantPanel({ panelHeight }) {
 
   return (
     <div
-      className={`flex w-full flex-col bg-gray-750 overflow-y-auto `}
+      className={`flex w-full flex-col bg-white overflow-y-auto `}
       style={{ height: panelHeight }}
     >
       <div

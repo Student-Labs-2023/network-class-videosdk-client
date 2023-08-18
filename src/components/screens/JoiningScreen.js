@@ -12,6 +12,14 @@ import WebcamOffIcon from "../../icons/WebcamOffIcon";
 import WebcamOnIcon from "../../icons/Bottombar/WebcamOnIcon";
 import MicOffIcon from "../../icons/MicOffIcon";
 import MicOnIcon from "../../icons/Bottombar/MicOnIcon";
+import Header from "../Header";
+import defaultCameraIcon from '../../icons/camera.svg';
+
+const CheckBox = styled.div`
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0px 0px 2px 0px #C5CCD5;
+`
 
 export function JoiningScreen({
   participantName,
@@ -348,7 +356,8 @@ export function JoiningScreen({
 
   return (
     <div className="fixed inset-0">
-      <div className="overflow-y-auto flex flex-col flex-1 h-screen bg-gray-800">
+      <Header/>
+      <div className="overflow-y-auto flex flex-col flex-1 h-screen bg-gray-0">
         <div className="flex flex-1 flex-col md:flex-row items-center justify-center md:m-[72px] m-16">
           <div className="container grid  md:grid-flow-col grid-flow-row ">
             <div className="grid grid-cols-12">
@@ -363,7 +372,7 @@ export function JoiningScreen({
                         ref={videoPlayerRef}
                         controls={false}
                         style={{
-                          backgroundColor: "#1c1c1c",
+                          backgroundColor: "#D5DEE8",
                         }}
                         className={
                           "rounded-[10px] h-full w-full object-cover flex items-center justify-center flip"
@@ -374,10 +383,12 @@ export function JoiningScreen({
                         <>
                           <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
                             {!webcamOn ? (
-                              <p className="text-xl xl:text-lg 2xl:text-xl text-white">
+                              <p className="text-xl xl:text-lg 2xl:text-xl">
                                 {meetingMode === Constants.modes.VIEWER
                                   ? "You are not permitted to use your microphone and camera."
-                                  : "The camera is off"}
+                                  : 
+                                    <img style={{ width: 66, borderRadius: 10 }} src={defaultCameraIcon} alt="defaultCameraIcon"/>
+                                  }
                               </p>
                             ) : null}
                           </div>
@@ -425,21 +436,21 @@ export function JoiningScreen({
 
                     {!isMobile &&
                       meetingMode === Constants.modes.CONFERENCE && (
-                        <div
-                          className="m-4 absolute md:left-12 lg:left-24 xl:left-44 md:right-12 lg:right-24 xl:right-44 rounded cursor-pointer bg-gray-700"
+                        <CheckBox
+                          className="m-4 absolute md:left-12 lg:left-24 xl:left-44 md:right-12 lg:right-24 xl:right-44 rounded cursor-pointer bg-white"
                           onClick={(e) => {
                             handleClickOpen();
                           }}
                         >
-                          <div className="flex flex-row items-center justify-center m-1">
-                            <button className="text-white">
+                          <div className="flex flex-row items-center justify-center m-1 bg-white">
+                            <button className="text-black">
                               <CheckCircleIcon className="h-5 w-5" />
                             </button>
-                            <p className="text-base text-white ml-1">
-                              Check your audio and video
+                            <p className="text-base text-black ml-1">
+                              Настроить ауидо и видео
                             </p>
                           </div>
-                        </div>
+                        </CheckBox>
                       )}
                   </div>
                 </div>

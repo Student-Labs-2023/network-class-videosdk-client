@@ -1,5 +1,22 @@
 import { CheckIcon, ClipboardIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import styled from 'styled-components';
+
+const JoinButton = styled.button`
+  color: white;
+  border-radius: 10px 8px 8px 10px;
+  padding: 24px 20px;
+  background: #175EF1;
+  text-align: center;
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: 400;
+
+  &:active,
+  &:hover {
+    background: #07379d;
+  }
+`
 
 export function MeetingDetailsScreen({
   onClickJoin,
@@ -15,8 +32,26 @@ export function MeetingDetailsScreen({
   const [isCopied, setIsCopied] = useState(false);
   const [iscreateMeetingClicked, setIscreateMeetingClicked] = useState(false);
   const [isJoinMeetingClicked, setIsJoinMeetingClicked] = useState(false);
+  const [meetId, setMeetId] = useState("'");
+
+  const roomId = localStorage.getItem("roomId"); 
+
+  useEffect(() => {
+    fetch(`https://network-class-server.ru/channels/${roomId}`, {
+      method : 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+    .then(response => response.text())
+    .then(response => {
+        response = JSON.parse(response);
+        setMeetId(response.meeting_id);
+    })
+  }, []);
 
   return (
+    <>
     <div
       className={`flex flex-1 flex-col justify-center w-full md:p-[6px] sm:p-1 p-1.5`}
     >
@@ -97,7 +132,7 @@ export function MeetingDetailsScreen({
       {!iscreateMeetingClicked && !isJoinMeetingClicked && (
         <div className="w-full md:mt-0 mt-4 flex flex-col">
           <div className="flex items-center justify-center flex-col w-full ">
-            <button
+            {/* <button
               className="w-full bg-purple-350 text-white px-2 py-3 rounded-xl"
               onClick={async (e) => {
                 const meetingId = await _handleOnCreateMeeting();
@@ -114,10 +149,19 @@ export function MeetingDetailsScreen({
               }}
             >
               Join a meeting
-            </button>
+            </button> */}
+            <JoinButton
+              className="w-full bg-gray-650 text-white px-2 py-3 rounded-xl mt-5"
+              onClick={(e) => {
+                onClickJoin(meetId);
+              }}
+            >
+              Присоединиться
+            </JoinButton>
           </div>
         </div>
       )}
     </div>
+    </>
   );
 }

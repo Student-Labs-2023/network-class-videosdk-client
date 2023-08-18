@@ -7,7 +7,7 @@ const Button = styled.button`
     position: absolute;
     top: 21px;
     right: 0; 
-    z-index: 100;
+    z-index: 2;
 
     display: flex;
     width: 48px;

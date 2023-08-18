@@ -37,6 +37,7 @@ module.exports = windmill({
 
       colors: {
         gray: {
+          0: "#F9FAFE",
           1: "#5F6A77",
           2: "#7e8a98",
           3: "#A0AFC1",
