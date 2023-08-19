@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMeeting } from "@videosdk.live/react-sdk";
 import { useRoomData } from '../../helpers/useRoomData';
 
 const Container = styled.div`
@@ -41,6 +42,7 @@ const styleSwitch = {
 };
 
 const TopBar = () => {
+  const { participants } = useMeeting();
   const room = useRoomData();
 
   return (
@@ -48,7 +50,7 @@ const TopBar = () => {
         <Info>
             <Title>{room.title}</Title>
             <div></div>
-            <Paragraph>18 участников|01:12:45 </Paragraph>
+            <Paragraph>{participants?.size} участников|01:12:45 </Paragraph>
         </Info>
     </Container>
   )
