@@ -19,6 +19,7 @@ import ParticipantsIcon from "../../icons/Bottombar/ParticipantsIcon";
 import EndIcon from "../../icons/Bottombar/EndIcon";
 import RaiseHandIcon from "../../icons/Bottombar/RaiseHandIcon";
 import PipIcon from "../../icons/Bottombar/PipIcon";
+import SettingsIcon from "../../icons/Bottombar/SettingsIcon";
 import { OutlinedButton } from "../../components/buttons/OutlinedButton";
 import useIsTab from "../../hooks/useIsTab";
 import useIsMobile from "../../hooks/useIsMobile";
@@ -28,6 +29,8 @@ import { Dialog, Popover, Transition } from "@headlessui/react";
 import { createPopper } from "@popperjs/core";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
+import Popup from "../../components/Popup";
+import { useUserData } from "../../helpers/useUserData";
 
 import styled from 'styled-components';
 
@@ -640,6 +643,40 @@ export function BottomBar({
     );
   };
 
+  const Header = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 0.5px solid #d5dee8;
+  `
+
+  const SettingsBTN = () => {
+    const [popupActive, setPopupActive] = useState(false);
+    const user = useUserData();
+
+    return (
+      <>
+        <Popup active={popupActive} setActive={setPopupActive}>
+          <Header>
+            <h2>Мои настройки</h2>
+            {user.role === 'owner' || "admin" ? <h2>Настройки класса</h2> : null}
+          </Header>
+        </Popup>
+        <OutlinedButton
+          Icon={SettingsIcon}
+          bgColor="#fff"
+          onClick={() => {
+            setPopupActive(true);
+          }}
+          tooltip="открыть настройки"
+        />
+      </>
+    );
+  };
+
   // const ParticipantsBTN = ({ isMobile, isTab }) => {
   //   const { participants } = useMeeting();
   //   return isMobile || isTab ? (
@@ -855,7 +892,8 @@ export function BottomBar({
         <WebCamBTN />
         <ScreenShareBTN isMobile={isMobile} isTab={isTab} />
         <PipBTN isMobile={isMobile} isTab={isTab} />
-        <ChatBTN isMobile={isMobile} isTab={isTab} />
+        {/* <ChatBTN isMobile={isMobile} isTab={isTab} /> */}
+        <SettingsBTN />
       </div>
       <div className="flex items-center justify-center">
         <LeaveBTN />
