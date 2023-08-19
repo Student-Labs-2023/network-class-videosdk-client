@@ -50,7 +50,7 @@ const TopBar = () => {
         <Info>
             <Title>{room.title}</Title>
             <div></div>
-            <Paragraph>{participants?.size} участников|01:12:45 </Paragraph>
+            <Paragraph>{participants?.size} участников</Paragraph>
         </Info>
     </Container>
   )
