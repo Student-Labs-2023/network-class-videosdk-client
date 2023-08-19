@@ -30,8 +30,6 @@ const Logo = styled.a`
 `;
 
 const Header = () => {
-
-  console.log(process.env.NETWORKCLASS_URL);
   return (
     <Container>
       <Left>

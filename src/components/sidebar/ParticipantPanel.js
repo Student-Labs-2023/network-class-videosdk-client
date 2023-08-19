@@ -7,10 +7,16 @@ import VideoCamOffIcon from "../../icons/ParticipantTabPanel/VideoCamOffIcon";
 import VideoCamOnIcon from "../../icons/ParticipantTabPanel/VideoCamOnIcon";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import { nameTructed } from "../../utils/helper";
+import { useUserData } from "../../helpers/useUserData";
+import { useRoomData } from "../../helpers/useRoomData";
 
 function ParticipantListItem({ participantId, raisedHand }) {
   const { micOn, webcamOn, displayName, isLocal } =
     useParticipant(participantId);
+  const user = useUserData();
+  const room = useRoomData();
+  console.log(user);
+  console.log(room);
 
   return (
     <div className="mt-2 m-2 p-2 bg-white rounded-lg mb-0">
