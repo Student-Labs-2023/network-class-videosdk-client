@@ -447,7 +447,7 @@ export function JoiningScreen({
                               <CheckCircleIcon className="h-5 w-5" />
                             </button>
                             <p className="text-base text-black ml-1">
-                              Настроить ауидо и видео
+                              Настроить аудио и видео
                             </p>
                           </div>
                         </CheckBox>
@@ -457,7 +457,7 @@ export function JoiningScreen({
               </div>
               <div className="md:col-span-5 2xl:col-span-6 col-span-12 md:relative">
                 <div className="flex flex-1 flex-col items-center justify-center xl:m-16 lg:m-6 md:mt-9 lg:mt-14 xl:mt-20 mt-3 md:absolute md:left-0 md:right-0 md:top-0 md:bottom-0">
-                  <MeetingDetailsScreen
+                <MeetingDetailsScreen
                     participantName={participantName}
                     setParticipantName={setParticipantName}
                     videoTrack={videoTrack}

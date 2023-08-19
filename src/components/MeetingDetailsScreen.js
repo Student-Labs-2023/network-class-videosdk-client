@@ -32,9 +32,10 @@ export function MeetingDetailsScreen({
   const [isCopied, setIsCopied] = useState(false);
   const [iscreateMeetingClicked, setIscreateMeetingClicked] = useState(false);
   const [isJoinMeetingClicked, setIsJoinMeetingClicked] = useState(false);
-  const [meetId, setMeetId] = useState("'");
+  const [meetId, setMeetId] = useState("");
 
   const roomId = localStorage.getItem("roomId"); 
+  const email = localStorage.getItem("email");
 
   useEffect(() => {
     fetch(`https://network-class-server.ru/channels/${roomId}`, {
@@ -47,6 +48,17 @@ export function MeetingDetailsScreen({
     .then(response => {
         response = JSON.parse(response);
         setMeetId(response.meeting_id);
+    })
+
+    fetch(`https://network-class-server.ru/user_channels/connect?email=${email}&channel_id=${roomId}`, {
+      method : 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+    .then(response => response.text())
+    .then(response => {
+        response = JSON.parse(response);
     })
   }, []);
 
