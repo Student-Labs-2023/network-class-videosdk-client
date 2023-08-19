@@ -5,6 +5,7 @@ import { JoiningScreen } from "../components/screens/JoiningScreen";
 import { MeetingContainer } from "../meeting/MeetingContainer";
 import { MeetingAppProvider } from "../MeetingAppContextDef";
 import { useSearchParams } from "react-router-dom";
+import { useUserData } from "../helpers/useUserData"; 
 
 const Call = () => {
   const [token, setToken] = useState("");
@@ -36,6 +37,8 @@ const Call = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const user = useUserData();
+
   const email = searchParams.get("email");
   const roomId = searchParams.get("roomId");
 
@@ -56,7 +59,7 @@ const Call = () => {
               meetingId,
               micEnabled: micOn,
               webcamEnabled: webcamOn,
-              name: participantName ? participantName : "TestUser",
+              name: user.full_name ? user.full_name : "TestUser",
               mode: meetingMode,
               multiStream: true,
             }}
