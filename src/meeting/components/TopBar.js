@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRoomData } from '../../helpers/useRoomData';
 
 const Container = styled.div`
   display: flex;
@@ -40,10 +41,12 @@ const styleSwitch = {
 };
 
 const TopBar = () => {
+  const room = useRoomData();
+
   return (
     <Container>
         <Info>
-            <Title>Информатика 4 класс</Title>
+            <Title>{room.title}</Title>
             <div></div>
             <Paragraph>18 участников|01:12:45 </Paragraph>
         </Info>
