@@ -30,9 +30,10 @@ import { createPopper } from "@popperjs/core";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
 import Popup from "../../components/Popup";
-import { useUserData } from "../../helpers/useUserData";
+import Header from "./Settings/Header";
 
 import styled from 'styled-components';
+import SubmitButton from "../ui/SubmitButton";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -643,27 +644,14 @@ export function BottomBar({
     );
   };
 
-  const Header = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding-bottom: 20px;
-    border-bottom: 0.5px solid #d5dee8;
-  `
-
   const SettingsBTN = () => {
     const [popupActive, setPopupActive] = useState(false);
-    const user = useUserData();
 
     return (
       <>
         <Popup active={popupActive} setActive={setPopupActive}>
-          <Header>
-            <h2>Мои настройки</h2>
-            {user.role === 'owner' || "admin" ? <h2>Настройки класса</h2> : null}
-          </Header>
+          <Header/>
+          <SubmitButton>Сохранить</SubmitButton>
         </Popup>
         <OutlinedButton
           Icon={SettingsIcon}

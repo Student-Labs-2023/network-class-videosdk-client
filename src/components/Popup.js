@@ -7,6 +7,7 @@ const Container = styled.div`
     left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +30,7 @@ const Popup = ({ active, setActive, children }) => {
   return active ? (
     <Container onClick={() => setActive(false)}>
         <Content onClick={e => e.stopPropagation()}>
-            {children}
+          {children}
         </Content>
     </Container>
   ) : null
