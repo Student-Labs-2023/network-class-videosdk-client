@@ -18,6 +18,11 @@ const Button = styled.button`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+      background: #FCEFDC;
+    }
 `
 
 const SubmitButton = ({ onClick, children }) => {

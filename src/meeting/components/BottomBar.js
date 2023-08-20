@@ -35,6 +35,9 @@ import Header from "./Settings/Header";
 import styled from 'styled-components';
 import SubmitButton from "./Settings/ui/SubmitButton";
 import CancelButton from "./Settings/ui/CancelButton";
+import SwitchButton from "./Settings/ui/switchButton/SwitchButton";
+import Input from "./Settings/ui/Input";
+import { useUserData } from "../../helpers/useUserData";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -645,15 +648,31 @@ export function BottomBar({
     );
   };
 
+  const Buttons = styled.div`
+    display: flex;
+    gap: 30px;
+  `
+
   const SettingsBTN = () => {
     const [popupActive, setPopupActive] = useState(false);
+    const [name, setName] = useState('');
+
+    const user = useUserData();
+
+    useEffect(() => {
+      setName(user.full_name);
+    }, [user])
 
     return (
       <>
         <Popup active={popupActive} setActive={setPopupActive}>
           <Header/>
-          <SubmitButton>Сохранить</SubmitButton>
-          <CancelButton onClick={() => setPopupActive(false)}>Отмена</CancelButton>
+          <Input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+          <SwitchButton/>
+          <Buttons>
+            <SubmitButton>Сохранить</SubmitButton>
+            <CancelButton onClick={() => setPopupActive(false)}>Отмена</CancelButton>
+          </Buttons>
         </Popup>
         <OutlinedButton
           Icon={SettingsIcon}

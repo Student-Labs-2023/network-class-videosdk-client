@@ -1,0 +1,28 @@
+.switchBtn {
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    border-radius: 15px;
+    background: #C5CCD5;
+    cursor: pointer;
+    position: relative;
+    transition-duration: 300ms;
+  }
+  .switchBtn::after {
+    content: "";
+    height: 17px;
+    width: 16px;
+    border-radius: 50%;
+    background: #fff;
+    top: 1.5px;
+    left: 1.5px;
+    transition-duration: 300ms;
+    position: absolute;
+    z-index: 1;
+  }
+  .switchOn {
+    background: #175EF1;
+  }
+  .switchOn::after {
+    left: 18.5px;
+  }
