@@ -660,14 +660,7 @@ export function BottomBar({
   /* eslint-disable */
   const SettingsBTN = observer(() => {
     const [popupActive, setPopupActive] = useState(false);
-    const [name, setName] = useState('');
-
-    const user = useUserData();
-
-    useEffect(() => {
-      setName(user.full_name);
-    }, [user])
-
+    
     return (
       <>
         <Popup active={popupActive} setActive={setPopupActive}>
