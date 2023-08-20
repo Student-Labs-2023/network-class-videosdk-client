@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SwitchButton from './ui/switchButton/SwitchButton';
+import { useRoomData } from '../../../helpers/useRoomData';
 
 const Container = styled.div`
     width: 520px; 
@@ -37,6 +38,20 @@ const SettingText = styled.div`
 `;
 
 const ChannelSettings = () => {
+    const [shareSelected, setShareSelected] = useState(false);
+    const [camSelected, setCamSelected] = useState(false);
+    const [micSelected, setMicSelected] = useState(false);
+    const [recordSelected, setRecordSelected] = useState(false);
+
+    const room = useRoomData();
+
+    useEffect(() => {
+        setShareSelected(room.screenshare_for);
+        setCamSelected(room.webcam_for);
+        setMicSelected(room.micro_for);
+        setRecordSelected(room.screenrecord_for);
+    }, [room])
+
   return (
     <Container>
         <SettingsItem>
@@ -45,13 +60,13 @@ const ChannelSettings = () => {
                 <SettingText>
                 Разрешить участникам видеть все демонстрации
                 </SettingText>
-                <SwitchButton />
+                <SwitchButton selected={shareSelected} setSelected={setShareSelected} />
             </Setting>
             <Setting>
                 <SettingText>
                 Разрешить участникам выбирать вкладку для показа
                 </SettingText>
-                <SwitchButton />
+                <SwitchButton selected={shareSelected} setSelected={setShareSelected} />
             </Setting>
         </SettingsItem>
 
@@ -59,7 +74,7 @@ const ChannelSettings = () => {
             <Title>Камера</Title>
             <Setting>
                 <SettingText>Разрешить участникам использовать камеру</SettingText>
-                <SwitchButton />
+                <SwitchButton selected={camSelected} setSelected={setCamSelected} />
             </Setting>
         </SettingsItem>
 
@@ -69,7 +84,7 @@ const ChannelSettings = () => {
                 <SettingText>
                 Разрешить участникам использовать микрофон
                 </SettingText>
-                <SwitchButton />
+                <SwitchButton selected={micSelected} setSelected={setMicSelected} />
             </Setting>
         </SettingsItem>
 
@@ -77,7 +92,7 @@ const ChannelSettings = () => {
             <Title>Запись</Title>
             <Setting>
                 <SettingText>Разрешить участникам записывать встречи</SettingText>
-                <SwitchButton />
+                <SwitchButton selected={recordSelected} setSelected={setRecordSelected} />
             </Setting> 
         </SettingsItem>
     </Container>

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import styles from "./styles.module.css";
 import classNames from "classnames";
 
-const SwitchButton = () => {
-  const [selected, setSelected] = useState(true);
+const SwitchButton = ({ selected, setSelected }) => {
 
   function changeSelected() {
     selected ? setSelected(false) : setSelected(true);
