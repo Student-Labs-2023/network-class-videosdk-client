@@ -17,16 +17,16 @@ const Container = styled.input`
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0.5px;
+  width: 520px; 
 `;
 
 const Title = styled.label`
   position: absolute;
   top: -9px;
   left: 14px;
-  color: var(--blue, #175ef1);
+  color: #175ef1;
   background: white;
   padding: 0 5px;
-  font-family: var(--font);
   font-size: 18px;
   font-weight: 400;
   line-height: 16px;

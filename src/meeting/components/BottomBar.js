@@ -35,9 +35,12 @@ import Header from "./Settings/Header";
 import styled from 'styled-components';
 import SubmitButton from "./Settings/ui/SubmitButton";
 import CancelButton from "./Settings/ui/CancelButton";
-import SwitchButton from "./Settings/ui/switchButton/SwitchButton";
-import Input from "./Settings/ui/Input";
 import { useUserData } from "../../helpers/useUserData";
+import { Observer, observer } from "mobx-react-lite";
+import settingsState from "./Settings/store/settingsState";
+import MySettings from "./Settings/MySettings";
+import ChannelSettings from './Settings/ChannelSettings';
+import { observe } from "mobx";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -650,10 +653,12 @@ export function BottomBar({
 
   const Buttons = styled.div`
     display: flex;
-    gap: 30px;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 223px;
   `
-
-  const SettingsBTN = () => {
+  /* eslint-disable */
+  const SettingsBTN = observer(() => {
     const [popupActive, setPopupActive] = useState(false);
     const [name, setName] = useState('');
 
@@ -667,8 +672,7 @@ export function BottomBar({
       <>
         <Popup active={popupActive} setActive={setPopupActive}>
           <Header/>
-          <Input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
-          <SwitchButton/>
+          {settingsState.state === "my" ? <MySettings/> : <ChannelSettings/>}
           <Buttons>
             <SubmitButton>Сохранить</SubmitButton>
             <CancelButton onClick={() => setPopupActive(false)}>Отмена</CancelButton>
@@ -684,7 +688,8 @@ export function BottomBar({
         />
       </>
     );
-  };
+  })
+  /* eslint-disable */
 
   // const ParticipantsBTN = ({ isMobile, isTab }) => {
   //   const { participants } = useMeeting();
