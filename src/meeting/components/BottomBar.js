@@ -33,7 +33,8 @@ import Popup from "../../components/Popup";
 import Header from "./Settings/Header";
 
 import styled from 'styled-components';
-import SubmitButton from "../ui/SubmitButton";
+import SubmitButton from "./Settings/ui/SubmitButton";
+import CancelButton from "./Settings/ui/CancelButton";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -652,6 +653,7 @@ export function BottomBar({
         <Popup active={popupActive} setActive={setPopupActive}>
           <Header/>
           <SubmitButton>Сохранить</SubmitButton>
+          <CancelButton onClick={() => setPopupActive(false)}>Отмена</CancelButton>
         </Popup>
         <OutlinedButton
           Icon={SettingsIcon}
