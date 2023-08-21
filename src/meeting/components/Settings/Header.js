@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useUserData } from '../../../helpers/useUserData';
-import settingsState from './store/settingsState';
+import formVisibleState from './store/formVisibleState';
 
 const Container = styled.div`
     display: flex;
@@ -26,17 +26,17 @@ const Header = () => {
     const user = useUserData();
 
     function openMySettings() {
-      settingsState.openMy();
+      formVisibleState.openMy();
     }
 
     function openChannelSettings() {
-      settingsState.openChannel();
+      formVisibleState.openChannel();
     }
 
   return (
     <Container>
-        <TitleLink onClick={openMySettings} style={settingsState.state === 'my' ? { color: "#175EF1", fontWeight: 600 } : {}}>Мои настройки</TitleLink>
-        {user.role === 'owner' ? <TitleLink onClick={openChannelSettings} style={settingsState.state === 'channel' ? { color: "#175EF1", fontWeight: 600 } : {}}>Настройки класса</TitleLink> : null}
+        <TitleLink onClick={openMySettings} style={formVisibleState.state === 'my' ? { color: "#175EF1", fontWeight: 600 } : {}}>Мои настройки</TitleLink>
+        {user.role === 'owner' ? <TitleLink onClick={openChannelSettings} style={formVisibleState.state === 'channel' ? { color: "#175EF1", fontWeight: 600 } : {}}>Настройки класса</TitleLink> : null}
     </Container>
   )
 }

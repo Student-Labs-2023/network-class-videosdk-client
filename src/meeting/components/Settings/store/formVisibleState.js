@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
  
-class SettingsState {
+class FormVisibleState {
     state = "my";
     constructor() {
         makeAutoObservable(this)
@@ -15,4 +15,4 @@ class SettingsState {
     }
 }
  
-export default new SettingsState();
+export default new FormVisibleState();

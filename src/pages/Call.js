@@ -59,7 +59,7 @@ const Call = () => {
               meetingId,
               micEnabled: micOn,
               webcamEnabled: webcamOn,
-              name: user.full_name ? user.full_name : "TestUser",
+              name: user.full_name ? user.name_channel : "TestUser",
               mode: meetingMode,
               multiStream: true,
             }}

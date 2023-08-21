@@ -15,7 +15,6 @@ import WebcamOnIcon from "../../icons/Bottombar/WebcamOnIcon";
 import WebcamOffIcon from "../../icons/Bottombar/WebcamOffIcon";
 import ScreenShareIcon from "../../icons/Bottombar/ScreenShareIcon";
 import ChatIcon from "../../icons/Bottombar/ChatIcon";
-import ParticipantsIcon from "../../icons/Bottombar/ParticipantsIcon";
 import EndIcon from "../../icons/Bottombar/EndIcon";
 import RaiseHandIcon from "../../icons/Bottombar/RaiseHandIcon";
 import PipIcon from "../../icons/Bottombar/PipIcon";
@@ -35,12 +34,15 @@ import Header from "./Settings/Header";
 import styled from 'styled-components';
 import SubmitButton from "./Settings/ui/SubmitButton";
 import CancelButton from "./Settings/ui/CancelButton";
-import { useUserData } from "../../helpers/useUserData";
-import { Observer, observer } from "mobx-react-lite";
-import settingsState from "./Settings/store/settingsState";
+import { observer } from "mobx-react-lite";
+import formVisibleState from "./Settings/store/formVisibleState";
 import MySettings from "./Settings/MySettings";
 import ChannelSettings from './Settings/ChannelSettings';
-import { observe } from "mobx";
+import webcamState from "./Settings/store/webcamState";
+import screenshareState from "./Settings/store/screenshareState";
+import microState from "./Settings/store/microState";
+import recordState from "./Settings/store/recordState";
+import nameState from "./Settings/store/nameState";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -660,16 +662,46 @@ export function BottomBar({
   /* eslint-disable */
   const SettingsBTN = observer(() => {
     const [popupActive, setPopupActive] = useState(false);
+
+    function updateSettings(e) {
+      e.preventDefault();
+
+      const roomId = localStorage.getItem("roomId");
+      const email = localStorage.getItem("email");
+
+      const updatedSettings = {
+        user_channel_name: nameState.state,
+        webcam_for: webcamState.state,
+        screenshare_for: screenshareState.state,
+        screenrecord_for: recordState.state,
+        micro_for: microState.state
+      }
+
+      fetch(`https://network-class-server.ru/user_channels/setting/${roomId}/${email}`, {
+        method : 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body : JSON.stringify(updatedSettings),
+      })
+      .then(response => response.text())
+      .then(response => {
+          response = JSON.parse(response);
+          console.log(response);
+      })
+    }
     
     return (
       <>
         <Popup active={popupActive} setActive={setPopupActive}>
-          <Header/>
-          {settingsState.state === "my" ? <MySettings/> : <ChannelSettings/>}
-          <Buttons>
-            <SubmitButton>Сохранить</SubmitButton>
-            <CancelButton onClick={() => setPopupActive(false)}>Отмена</CancelButton>
-          </Buttons>
+          <form onSubmit={updateSettings}>
+            <Header/>
+            {formVisibleState.state === "my" ? <MySettings/> : <ChannelSettings/>}
+            <Buttons>
+              <SubmitButton type='submit'>Сохранить</SubmitButton>
+              <CancelButton type='button' onClick={() => setPopupActive(false)}>Отмена</CancelButton>
+            </Buttons>
+          </form>
         </Popup>
         <OutlinedButton
           Icon={SettingsIcon}
