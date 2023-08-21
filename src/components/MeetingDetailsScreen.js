@@ -49,7 +49,9 @@ export function MeetingDetailsScreen({
         response = JSON.parse(response);
         setMeetId(response.meeting_id);
     })
+  }, []);
 
+  function connectRoom() {
     fetch(`https://network-class-server.ru/user_channels/connect?email=${email}&channel_id=${roomId}`, {
       method : 'GET',
       headers: {
@@ -60,7 +62,7 @@ export function MeetingDetailsScreen({
     .then(response => {
         response = JSON.parse(response);
     })
-  }, []);
+  }
 
   return (
     <>
@@ -165,6 +167,7 @@ export function MeetingDetailsScreen({
             <JoinButton
               className="w-full bg-gray-650 text-white px-2 py-3 rounded-xl mt-5"
               onClick={(e) => {
+                connectRoom();
                 onClickJoin(meetId);
               }}
             >
