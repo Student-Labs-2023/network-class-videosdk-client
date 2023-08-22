@@ -10,9 +10,9 @@ const Button = styled.button`
     line-height: normal;
 `
 
-const CancelButton = ({ onClick, children }) => {
+const CancelButton = ({ onClick, children, type }) => {
   return (
-    <Button onClick={onClick}>{children}</Button>
+    <Button type={type} onClick={onClick}>{children}</Button>
   )
 }
 

@@ -5,7 +5,6 @@ import { JoiningScreen } from "../components/screens/JoiningScreen";
 import { MeetingContainer } from "../meeting/MeetingContainer";
 import { MeetingAppProvider } from "../MeetingAppContextDef";
 import { useSearchParams } from "react-router-dom";
-import { useUserData } from "../helpers/useUserData"; 
 
 const Call = () => {
   const [token, setToken] = useState("");
@@ -37,21 +36,38 @@ const Call = () => {
   }, [isMobile]);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const user = useUserData();
+  const [user, setUser] = useState({});
 
   const email = searchParams.get("email");
   const roomId = searchParams.get("roomId");
 
   localStorage.setItem("email", email);
   localStorage.setItem("roomId", roomId);
+
+  async function connectRoom() {
+    await fetch(`https://network-class-server.ru/user_channels/connect?email=${email}&channel_id=${roomId}`, {
+      method : 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+    .then(response => response.text())
+    .then(response => {
+        response = JSON.parse(response);
+        setUser(response);
+    })
+  }
+
+  useEffect(() => {
+    connectRoom();
+  }, [])
   
   return (
     <>
       {isMeetingStarted ? (
         <MeetingAppProvider
           selectedMic={selectedMic}
-          selectedWebcam={selectedWebcam}
+          selectedWebcam={selectedWebcam}s
           initialMicOn={micOn}
           initialWebcamOn={webcamOn}
         >
@@ -60,7 +76,7 @@ const Call = () => {
               meetingId,
               micEnabled: micOn,
               webcamEnabled: webcamOn,
-              name: user.full_name ? user.full_name : "TestUser",
+              name: user.name_channel ? user.name_channel : "TestUser",
               mode: meetingMode,
               multiStream: true,
             }}

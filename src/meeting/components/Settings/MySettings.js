@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Input from './ui/Input';
 import { useUserData } from '../../../helpers/useUserData';
+import nameState from './store/nameState';
 
 const Container = styled.div`
     margin: 30px 0;
@@ -12,8 +13,12 @@ const MySettings = () => {
     const user = useUserData();
 
     useEffect(() => {
-        setName(user.full_name);
+        setName(user.name_channel);
       }, [user])
+
+    useEffect(() => {
+      nameState.change(name);
+    }, [name])
   return (
     <Container>
         <Input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
@@ -21,4 +26,4 @@ const MySettings = () => {
   )
 }
 
-export default MySettings
+export default MySettings;
