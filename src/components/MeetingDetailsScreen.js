@@ -65,7 +65,7 @@ export function MeetingDetailsScreen({
   return (
     <>
     <div
-      className={`flex flex-1 flex-col justify-center w-full md:p-[6px] sm:p-1 p-1.5`}
+      className={`flex flex-1 flex-col justify-center w-full`}
     >
       {iscreateMeetingClicked ? (
         <div className="border border-solid border-gray-400 rounded-xl px-4 py-3  flex items-center justify-center">

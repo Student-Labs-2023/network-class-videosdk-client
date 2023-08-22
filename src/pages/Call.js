@@ -15,6 +15,7 @@ const Call = () => {
   const [webcamOn, setWebcamOn] = useState(true);
   const [selectedMic, setSelectedMic] = useState({ id: null });
   const [selectedWebcam, setSelectedWebcam] = useState({ id: null });
+  const [selectedAudio, setSelectedAudio] = useState({ id: null });
   const [selectWebcamDeviceId, setSelectWebcamDeviceId] = useState(
     selectedWebcam.id
   );
@@ -101,6 +102,7 @@ const Call = () => {
           webcamEnabled={webcamOn}
           setSelectedMic={setSelectedMic}
           setSelectedWebcam={setSelectedWebcam}
+          setSelectedAudio={setSelectedAudio}
           setWebcamOn={setWebcamOn}
           onClickStartMeeting={() => {
             setMeetingStarted(true);

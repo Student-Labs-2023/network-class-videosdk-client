@@ -46,7 +46,7 @@ const ChatInput = ({ inputHeight }) => {
   return (
     <div
       className="w-full flex items-center px-2"
-      style={{ height: inputHeight }}
+      style={{ height: inputHeight, background: "#FFF" }}
     >
       <div class="relative  w-full">
         <span class="absolute inset-y-0 right-0 flex mr-2 rotate-90 ">

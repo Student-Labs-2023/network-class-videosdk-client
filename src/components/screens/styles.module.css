@@ -1,0 +1,68 @@
+.settingsVideo {
+  width: 100%;
+  min-width: 500px;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-top: 21px;
+  align-items: flex-start;
+  gap: 31px;
+}
+
+.camOff {
+  color: #000;
+  text-align: center;
+  font-family: "Noto Sans";
+  font-size: 25px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.info {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 25px;
+}
+
+.title {
+  display: inline-block;
+  margin-right: 17px;
+  color: blue;
+  font-family: "Noto Sans";
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.owner {
+  color: black;
+  font-family: "Noto Sans";
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.count {
+  color: #5f6a77;
+  font-family: "Noto Sans";
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: -10px;
+}
+
+.stateOn {
+  color: #5bc259;
+  font-family: "Noto Sans";
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.stateOff {
+  color: #f95a39;
+  font-family: "Noto Sans";
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 20px;
+}
