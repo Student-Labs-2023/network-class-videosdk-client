@@ -43,6 +43,8 @@ import screenshareState from "./Settings/store/screenshareState";
 import microState from "./Settings/store/microState";
 import recordState from "./Settings/store/recordState";
 import nameState from "./Settings/store/nameState";
+import { useUserData } from "../../helpers/useUserData";
+import { useRoomData } from "../../helpers/useRoomData";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -262,6 +264,9 @@ export function BottomBar({
     const localMicOn = mMeeting?.localMicOn;
     const changeMic = mMeeting?.changeMic;
 
+    const user = useUserData();
+    const room = useRoomData();
+
     const getMics = async (mGetMics) => {
       const mics = await mGetMics();
 
@@ -282,13 +287,25 @@ export function BottomBar({
       setTooltipShow(false);
     };
 
+    function toggleMic() {
+      if (room.micro_for === 'all') {
+        mMeeting.toggleMic();
+      }
+      if (user.role === 'owner') {
+        mMeeting.toggleMic();
+      }
+    }
+
+    // автоматичексое отключения микро юзерам, если разрешение имеет только owner 
+    if (room.micro_for === 'owner' && user.role !== 'owner' && mMeeting.localMicOn) {
+      mMeeting.toggleMic();
+    }
+
     return (
       <>
         <OutlinedButton
           Icon={localMicOn ? MicOnIcon : MicOffIcon}
-          onClick={() => {
-            mMeeting.toggleMic();
-          }}
+          onClick={toggleMic}
           bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
           borderColor={localMicOn && "#ffffff33"}
           isFocused={localMicOn}
