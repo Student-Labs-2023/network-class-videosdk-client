@@ -67,7 +67,7 @@ const Call = () => {
       {isMeetingStarted ? (
         <MeetingAppProvider
           selectedMic={selectedMic}
-          selectedWebcam={selectedWebcam}s
+          selectedWebcam={selectedWebcam}
           initialMicOn={micOn}
           initialWebcamOn={webcamOn}
         >
