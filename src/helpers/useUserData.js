@@ -15,7 +15,6 @@ export function useUserData() {
           .then(response => response.text())
           .then(response => {
               response = JSON.parse(response);
-              console.log(response);
               setUser(response);
           })
     }

@@ -45,6 +45,7 @@ import recordState from "./Settings/store/recordState";
 import nameState from "./Settings/store/nameState";
 import { useUserData } from "../../helpers/useUserData";
 import { useRoomData } from "../../helpers/useRoomData";
+import activeUserSharing from "./Settings/store/activeUserSharing";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -573,6 +574,21 @@ export function BottomBar({
 
   const ScreenShareBTN = ({ isMobile, isTab }) => {
     const { localScreenShareOn, toggleScreenShare, presenterId } = useMeeting();
+    const [activeEmail, setActiveEmail] = useState(null);
+
+    const email = localStorage.getItem("email");
+    const activeSharingEmail = localStorage.getItem("sharing-email");
+    console.log(activeSharingEmail);
+
+    useEffect(() => {
+      setActiveEmail(localStorage.getItem("sharing-email"));
+    }, [])
+
+    useEffect(() => {
+      if (activeEmail === email) {
+        console.log('log');
+      }
+    }, [activeEmail])
 
     return isMobile || isTab ? (
       <MobileIconButton

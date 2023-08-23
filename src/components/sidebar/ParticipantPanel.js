@@ -45,9 +45,9 @@ function ParticipantListItem({ participantId, raisedHand }) {
         <div className="m-1 p-1">
           {webcamOn ? <VideoCamOnIcon /> : <VideoCamOffIcon />}
         </div>
-        <div className="m-1 p-1">
+        <button onClick={() => localStorage.setItem("sharing-email", user.email)} className="m-1 p-1">
           {screenShareOn ? <ScreenShareOnIcon /> : <ScreenShareOffIcon />}
-        </div>
+        </button>
       </div>
     </div>
   );
