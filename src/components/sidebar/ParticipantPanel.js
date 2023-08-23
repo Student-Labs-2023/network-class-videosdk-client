@@ -5,18 +5,18 @@ import MicOnIcon from "../../icons/ParticipantTabPanel/MicOnIcon";
 import RaiseHand from "../../icons/ParticipantTabPanel/RaiseHand";
 import VideoCamOffIcon from "../../icons/ParticipantTabPanel/VideoCamOffIcon";
 import VideoCamOnIcon from "../../icons/ParticipantTabPanel/VideoCamOnIcon";
+import ScreenShareOffIcon from "../../icons/ParticipantTabPanel/ScreenShareOffIcon";
+import ScreenShareOnIcon from "../../icons/ParticipantTabPanel/ScreenShareOnIcon";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import { nameTructed } from "../../utils/helper";
 import { useUserData } from "../../helpers/useUserData";
 import { useRoomData } from "../../helpers/useRoomData";
 
 function ParticipantListItem({ participantId, raisedHand }) {
-  const { micOn, webcamOn, displayName, isLocal } =
+  const { micOn, webcamOn, screenShareOn, displayName, isLocal } =
     useParticipant(participantId);
   const user = useUserData();
   const room = useRoomData();
-  console.log(user);
-  console.log(room);
 
   return (
     <div className="mt-2 m-2 p-2 bg-white rounded-lg mb-0">
@@ -44,6 +44,9 @@ function ParticipantListItem({ participantId, raisedHand }) {
         <div className="m-1 p-1">{micOn ? <MicOnIcon /> : <MicOffIcon />}</div>
         <div className="m-1 p-1">
           {webcamOn ? <VideoCamOnIcon /> : <VideoCamOffIcon />}
+        </div>
+        <div className="m-1 p-1">
+          {screenShareOn ? <ScreenShareOnIcon /> : <ScreenShareOffIcon />}
         </div>
       </div>
     </div>
