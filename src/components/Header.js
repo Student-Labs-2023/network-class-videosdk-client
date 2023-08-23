@@ -39,14 +39,14 @@ const Image = styled.img`
 
 const Header = () => {
   function toLobby() {
-    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}/lobby`;
+    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}`;
   }
 
   return (
     <Container>
       <Left>
         <Image src={logo} alt="" onClick={toLobby} />
-        <Logo href={`${process.env.REACT_APP_NETWORKCLASS_URL}/lobby`}>
+        <Logo href={`${process.env.REACT_APP_NETWORKCLASS_URL}`}>
           Сетевой учебный класс
         </Logo>
       </Left>
