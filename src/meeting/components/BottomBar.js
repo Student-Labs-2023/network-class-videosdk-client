@@ -572,23 +572,20 @@ export function BottomBar({
     );
   };
 
-  const ScreenShareBTN = ({ isMobile, isTab }) => {
+  const ScreenShareBTNWrapper = observer(({ isMobile, isTab }) => {
+    return (
+      <ScreenShareBTN isMobile={isMobile} isTab={isTab} activeEmail={activeUserSharing.state} />
+    )
+  })
+
+  const ScreenShareBTN = ({ isMobile, isTab, activeEmail }) => {
     const { localScreenShareOn, toggleScreenShare, presenterId } = useMeeting();
-    const [activeEmail, setActiveEmail] = useState(null);
-
     const email = localStorage.getItem("email");
-    const activeSharingEmail = localStorage.getItem("sharing-email");
-    console.log(activeSharingEmail);
-
-    useEffect(() => {
-      setActiveEmail(localStorage.getItem("sharing-email"));
-    }, [])
-
-    useEffect(() => {
-      if (activeEmail === email) {
-        console.log('log');
-      }
-    }, [activeEmail])
+  
+    if (activeEmail === email && localScreenShareOn === false) {
+      console.log(localScreenShareOn);
+      toggleScreenShare();
+    } 
 
     return isMobile || isTab ? (
       <MobileIconButton
@@ -650,9 +647,7 @@ export function BottomBar({
         bgColor="#F95A39"
         onClick={() => {
           leave();
-          console.log('log');
           setIsMeetingLeft(true);
-          console.log('log');
         }}
         tooltip="Leave Meeting"
       />
@@ -962,7 +957,7 @@ export function BottomBar({
         <RaiseHandBTN isMobile={isMobile} isTab={isTab} />
         <MicBTN />
         <WebCamBTN />
-        <ScreenShareBTN isMobile={isMobile} isTab={isTab} />
+        <ScreenShareBTNWrapper isMobile={isMobile} isTab={isTab} />
         <PipBTN isMobile={isMobile} isTab={isTab} />
         {/* <ChatBTN isMobile={isMobile} isTab={isTab} /> */}
         <SettingsBTN />

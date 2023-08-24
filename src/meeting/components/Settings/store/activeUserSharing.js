@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
  
 class activeUserSharing {
-    state = "anton@gmail.com";
+    state = "";
     constructor() {
         makeAutoObservable(this)
     }
