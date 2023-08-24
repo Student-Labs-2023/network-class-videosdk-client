@@ -42,6 +42,13 @@ import { useUserData } from "../../helpers/useUserData";
 import { useRoomData } from "../../helpers/useRoomData";
 import activeUserSharing from "./Settings/store/activeUserSharing";
 
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 223px;
+`;
+
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
 
@@ -161,6 +168,589 @@ function PipBTN({ isMobile, isTab }) {
   );
 }
 
+const RaiseHandBTN = ({ isMobile, isTab }) => {
+  const { publish } = usePubSub("RAISE_HAND");
+  const RaiseHand = () => {
+    publish("Raise Hand");
+  };
+
+  return isMobile || isTab ? (
+    <MobileIconButton
+      id="RaiseHandBTN"
+      tooltipTitle={"Raise hand"}
+      Icon={RaiseHandIcon}
+      onClick={RaiseHand}
+      buttonText={"Raise Hand"}
+    />
+  ) : (
+    <OutlinedButton
+      onClick={RaiseHand}
+      tooltip={"Raise Hand"}
+      Icon={RaiseHandIcon}
+    />
+  );
+};
+
+const RecordingBTN = () => {
+  const { startRecording, stopRecording, recordingState } = useMeeting();
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: recordingBlink,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+    height: 64,
+    width: 160,
+  };
+
+  const isRecording = useIsRecording();
+  const isRecordingRef = useRef(isRecording);
+
+  useEffect(() => {
+    isRecordingRef.current = isRecording;
+  }, [isRecording]);
+
+  const { isRequestProcessing } = useMemo(
+    () => ({
+      isRequestProcessing:
+        recordingState === Constants.recordingEvents.RECORDING_STARTING ||
+        recordingState === Constants.recordingEvents.RECORDING_STOPPING,
+    }),
+    [recordingState]
+  );
+
+  const _handleClick = () => {
+    const isRecording = isRecordingRef.current;
+
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
+
+  return (
+    <OutlinedButton
+      Icon={RecordingIcon}
+      onClick={_handleClick}
+      isFocused={isRecording}
+      tooltip={
+        recordingState === Constants.recordingEvents.RECORDING_STARTED
+          ? "Stop Recording"
+          : recordingState === Constants.recordingEvents.RECORDING_STARTING
+          ? "Starting Recording"
+          : recordingState === Constants.recordingEvents.RECORDING_STOPPED
+          ? "Start Recording"
+          : recordingState === Constants.recordingEvents.RECORDING_STOPPING
+          ? "Stopping Recording"
+          : "Start Recording"
+      }
+      lottieOption={isRecording ? defaultOptions : null}
+      isRequestProcessing={isRequestProcessing}
+    />
+  );
+};
+
+const MicBTN = ({ selectMicDeviceId, setSelectMicDeviceId }) => {
+  const mMeeting = useMeeting();
+  const [mics, setMics] = useState([]);
+  const localMicOn = mMeeting?.localMicOn;
+  const changeMic = mMeeting?.changeMic;
+
+  const user = useUserData();
+  const room = useRoomData();
+
+  const getMics = async (mGetMics) => {
+    const mics = await mGetMics();
+
+    mics && mics?.length && setMics(mics);
+  };
+
+  const [tooltipShow, setTooltipShow] = useState(false);
+  const btnRef = useRef();
+  const tooltipRef = useRef();
+
+  const openTooltip = () => {
+    createPopper(btnRef.current, tooltipRef.current, {
+      placement: "top",
+    });
+    setTooltipShow(true);
+  };
+  const closeTooltip = () => {
+    setTooltipShow(false);
+  };
+
+  function toggleMic() {
+    if (room.micro_for === "all") {
+      mMeeting.toggleMic();
+    }
+    if (user.role === "owner") {
+      mMeeting.toggleMic();
+    }
+  }
+
+  // автоматичексое отключения микро юзерам, если разрешение имеет только owner
+  if (
+    room.micro_for === "owner" &&
+    user.role !== "owner" &&
+    mMeeting.localMicOn
+  ) {
+    mMeeting.toggleMic();
+  }
+
+  return (
+    <>
+      <OutlinedButton
+        Icon={localMicOn ? MicOnIcon : MicOffIcon}
+        onClick={toggleMic}
+        bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
+        borderColor={localMicOn && "#ffffff33"}
+        isFocused={localMicOn}
+        focusIconColor={localMicOn && "white"}
+        tooltip={"Toggle Mic"}
+        renderRightComponent={() => {
+          return (
+            <>
+              <Popover className="relative">
+                {({ close }) => (
+                  <>
+                    <Popover.Button className="flex items-center justify-center mt-1 mr-1">
+                      <div
+                        ref={btnRef}
+                        onMouseEnter={openTooltip}
+                        onMouseLeave={closeTooltip}
+                      >
+                        <button
+                          onClick={(e) => {
+                            getMics(mMeeting.getMics);
+                          }}
+                        >
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: mMeeting.localMicOn
+                                ? "#5F6A77"
+                                : "#5F6A77",
+                            }}
+                          />
+                        </button>
+                      </div>
+                    </Popover.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute left-1/2 bottom-full z-10 mt-3 w-72 -translate-x-1/2 transform px-4 sm:px-0 pb-4">
+                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className={" bg-gray-750 py-1"}>
+                            <div>
+                              <div className="flex items-center p-3 pb-0">
+                                <p className="ml-3 text-sm text-gray-900">
+                                  {"MICROPHONE"}
+                                </p>
+                              </div>
+                              <div className="flex flex-col">
+                                {mics.map(({ deviceId, label }, index) => (
+                                  <div
+                                    className={`px-3 py-1 my-1 pl-6 text-white text-left ${
+                                      deviceId === selectMicDeviceId &&
+                                      "bg-gray-150"
+                                    }`}
+                                  >
+                                    <button
+                                      className={`flex flex-1 w-full ${
+                                        deviceId === selectMicDeviceId &&
+                                        "bg-gray-150"
+                                      }`}
+                                      key={`mics_${deviceId}`}
+                                      onClick={() => {
+                                        setSelectMicDeviceId(deviceId);
+                                        changeMic(deviceId);
+                                        close();
+                                      }}
+                                    >
+                                      {label || `Mic ${index + 1}`}
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
+              <div
+                style={{ zIndex: 999 }}
+                className={`${
+                  tooltipShow ? "" : "hidden"
+                } overflow-hidden flex flex-col items-center justify-center pb-4`}
+                ref={tooltipRef}
+              >
+                <div className={"rounded-md p-1.5 bg-black "}>
+                  <p className="text-base text-white ">{"Change microphone"}</p>
+                </div>
+              </div>
+            </>
+          );
+        }}
+      />
+    </>
+  );
+};
+
+const WebCamBTN = ({ setSelectWebcamDeviceId }) => {
+  const mMeeting = useMeeting();
+  const { selectWebcamDeviceId } = useMeetingAppContext();
+
+  const [webcams, setWebcams] = useState([]);
+  const { getVideoTrack } = useMediaStream();
+
+  const localWebcamOn = mMeeting?.localWebcamOn;
+  const disableWebcam = mMeeting?.disableWebcam;
+  const changeWebcam = mMeeting?.changeWebcam;
+
+  const getWebcams = async (mGetWebcams) => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const webcams = devices.filter(
+      (d) =>
+        d.kind === "videoinput" &&
+        d.deviceId !== "default" &&
+        d.deviceId !== "communications"
+    );
+
+    webcams && webcams?.length && setWebcams(webcams);
+  };
+
+  const [tooltipShow, setTooltipShow] = useState(false);
+  const btnRef = useRef();
+  const tooltipRef = useRef();
+
+  const openTooltip = () => {
+    createPopper(btnRef.current, tooltipRef.current, {
+      placement: "top",
+    });
+    setTooltipShow(true);
+  };
+  const closeTooltip = () => {
+    setTooltipShow(false);
+  };
+
+  return (
+    <>
+      <OutlinedButton
+        Icon={localWebcamOn ? WebcamOnIcon : WebcamOffIcon}
+        onClick={async () => {
+          let track;
+          if (!localWebcamOn) {
+            track = await getVideoTrack({
+              webcamId: selectWebcamDeviceId,
+              encoderConfig: "h540p_w960p",
+            });
+          }
+          mMeeting.toggleWebcam(track);
+        }}
+        bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
+        borderColor={localWebcamOn && "#ffffff33"}
+        isFocused={localWebcamOn}
+        focusIconColor={localWebcamOn && "white"}
+        tooltip={"Toggle Webcam"}
+        renderRightComponent={() => {
+          return (
+            <>
+              <Popover className="relative">
+                {({ close }) => (
+                  <>
+                    <Popover.Button className="flex items-center justify-center mt-1 mr-1">
+                      <div
+                        ref={btnRef}
+                        onMouseEnter={openTooltip}
+                        onMouseLeave={closeTooltip}
+                      >
+                        <button
+                          onClick={(e) => {
+                            getWebcams(mMeeting?.getWebcams);
+                          }}
+                        >
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: localWebcamOn ? "#5F6A77" : "#5F6A77",
+                            }}
+                          />
+                        </button>
+                      </div>
+                    </Popover.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute left-1/2 bottom-full z-10 mt-3 w-72 -translate-x-1/2 transform px-4 sm:px-0 pb-4">
+                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className={" bg-gray-750 py-1"}>
+                            <div>
+                              <div className="flex items-center p-3 pb-0">
+                                <p className="ml-3 text-sm text-gray-900">
+                                  {"WEBCAM"}
+                                </p>
+                              </div>
+                              <div className="flex flex-col">
+                                {webcams.map(({ deviceId, label }, index) => (
+                                  <div
+                                    className={`px-3 py-1 my-1 pl-6 text-white text-left ${
+                                      deviceId === selectWebcamDeviceId &&
+                                      "bg-gray-150"
+                                    }`}
+                                  >
+                                    <button
+                                      className={`flex flex-1 w-full ${
+                                        deviceId === selectWebcamDeviceId &&
+                                        "bg-gray-150"
+                                      }`}
+                                      key={`output_webcams_${deviceId}`}
+                                      onClick={async () => {
+                                        setSelectWebcamDeviceId(deviceId);
+                                        await disableWebcam();
+                                        let customTrack = await getVideoTrack({
+                                          webcamId: deviceId,
+                                          encoderConfig: "h540p_w960p",
+                                        });
+
+                                        changeWebcam(customTrack);
+                                        setTimeout(() => {
+                                          close();
+                                        }, 200);
+                                      }}
+                                    >
+                                      {label || `Webcam ${index + 1}`}
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
+              <div
+                style={{ zIndex: 999 }}
+                className={`${
+                  tooltipShow ? "" : "hidden"
+                } overflow-hidden flex flex-col items-center justify-center pb-4`}
+                ref={tooltipRef}
+              >
+                <div className={"rounded-md p-1.5 bg-black "}>
+                  <p className="text-base text-white ">{"Change webcam"}</p>
+                </div>
+              </div>
+            </>
+          );
+        }}
+      />
+    </>
+  );
+};
+
+const ScreenShareBTN = ({ isMobile, isTab, activeEmail }) => {
+  const { localScreenShareOn, toggleScreenShare, presenterId } = useMeeting();
+  const email = localStorage.getItem("email");
+
+  if (activeEmail === email && localScreenShareOn === false) {
+    console.log(localScreenShareOn);
+    toggleScreenShare();
+  }
+
+  return isMobile || isTab ? (
+    <MobileIconButton
+      id="screen-share-btn"
+      tooltipTitle={
+        presenterId
+          ? localScreenShareOn
+            ? "Stop Presenting"
+            : null
+          : "Present Screen"
+      }
+      buttonText={
+        presenterId
+          ? localScreenShareOn
+            ? "Stop Presenting"
+            : null
+          : "Present Screen"
+      }
+      isFocused={localScreenShareOn}
+      Icon={ScreenShareIcon}
+      onClick={() => {
+        toggleScreenShare();
+      }}
+      disabled={
+        presenterId
+          ? localScreenShareOn
+            ? false
+            : true
+          : isMobile
+          ? true
+          : false
+      }
+    />
+  ) : (
+    <OutlinedButton
+      Icon={ScreenShareIcon}
+      onClick={() => {
+        toggleScreenShare();
+      }}
+      isFocused={localScreenShareOn}
+      tooltip={
+        presenterId
+          ? localScreenShareOn
+            ? "Stop Presenting"
+            : null
+          : "Present Screen"
+      }
+      disabled={presenterId ? (localScreenShareOn ? false : true) : false}
+    />
+  );
+};
+
+const LeaveBTN = ({ setIsMeetingLeft }) => {
+  const { leave } = useMeeting();
+
+  function toLobby() {
+    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}lobby`;
+  }
+
+  return (
+    <OutlinedButton
+      Icon={EndIcon}
+      bgColor="#F95A39"
+      onClick={() => {
+        leave();
+        setIsMeetingLeft(true);
+        toLobby();
+      }}
+      tooltip="Leave Meeting"
+    />
+  );
+};
+
+const ChatBTN = ({ isMobile, isTab }) => {
+  const { sideBarMode, setSideBarMode } = useMeetingAppContext();
+  return isMobile || isTab ? (
+    <MobileIconButton
+      tooltipTitle={"Chat"}
+      buttonText={"Chat"}
+      Icon={ChatIcon}
+      isFocused={sideBarMode === sideBarModes.CHAT}
+      onClick={() => {
+        setSideBarMode((s) =>
+          s === sideBarModes.CHAT ? null : sideBarModes.CHAT
+        );
+      }}
+    />
+  ) : (
+    <OutlinedButton
+      Icon={ChatIcon}
+      onClick={() => {
+        setSideBarMode((s) =>
+          s === sideBarModes.CHAT ? null : sideBarModes.CHAT
+        );
+      }}
+      isFocused={sideBarMode === "CHAT"}
+      tooltip="View Chat"
+    />
+  );
+};
+
+/* eslint-disable */
+const SettingsBTN = observer(() => {
+  const [popupActive, setPopupActive] = useState(false);
+
+  function updateSettings(e) {
+    e.preventDefault();
+
+    const roomId = localStorage.getItem("roomId");
+    const email = localStorage.getItem("email");
+
+    const updatedSettings = {
+      user_channel_name: nameState.state,
+      webcam_for: webcamState.state,
+      screenshare_for: screenshareState.state,
+      screenrecord_for: recordState.state,
+      micro_for: microState.state,
+    };
+
+    fetch(
+      `https://network-class-server.ru/user_channels/setting/${roomId}/${email}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(updatedSettings),
+      }
+    )
+      .then((response) => response.text())
+      .then((response) => {
+        response = JSON.parse(response);
+        console.log(response);
+      });
+  }
+
+  return (
+    <>
+      <Popup active={popupActive} setActive={setPopupActive}>
+        <form onSubmit={updateSettings}>
+          <Header />
+          {formVisibleState.state === "my" ? (
+            <MySettings />
+          ) : (
+            <ChannelSettings />
+          )}
+          <Buttons>
+            <SubmitButton type="submit">Сохранить</SubmitButton>
+            <CancelButton type="button" onClick={() => setPopupActive(false)}>
+              Отмена
+            </CancelButton>
+          </Buttons>
+        </form>
+      </Popup>
+      <OutlinedButton
+        Icon={SettingsIcon}
+        bgColor="#fff"
+        onClick={() => {
+          setPopupActive(true);
+        }}
+        tooltip="открыть настройки"
+      />
+    </>
+  );
+});
+
+const ScreenShareBTNWrapper = observer(({ isMobile, isTab }) => {
+  return (
+    <ScreenShareBTN
+      isMobile={isMobile}
+      isTab={isTab}
+      activeEmail={activeUserSharing.state}
+    />
+  );
+});
+
 export function BottomBar({
   bottomBarHeight,
   setIsMeetingLeft,
@@ -169,595 +759,6 @@ export function BottomBar({
   selectMicDeviceId,
   setSelectMicDeviceId,
 }) {
-  const { sideBarMode, setSideBarMode } = useMeetingAppContext();
-  const RaiseHandBTN = ({ isMobile, isTab }) => {
-    const { publish } = usePubSub("RAISE_HAND");
-    const RaiseHand = () => {
-      publish("Raise Hand");
-    };
-
-    return isMobile || isTab ? (
-      <MobileIconButton
-        id="RaiseHandBTN"
-        tooltipTitle={"Raise hand"}
-        Icon={RaiseHandIcon}
-        onClick={RaiseHand}
-        buttonText={"Raise Hand"}
-      />
-    ) : (
-      <OutlinedButton
-        onClick={RaiseHand}
-        tooltip={"Raise Hand"}
-        Icon={RaiseHandIcon}
-      />
-    );
-  };
-
-  const RecordingBTN = () => {
-    const { startRecording, stopRecording, recordingState } = useMeeting();
-    const defaultOptions = {
-      loop: true,
-      autoplay: true,
-      animationData: recordingBlink,
-      rendererSettings: {
-        preserveAspectRatio: "xMidYMid slice",
-      },
-      height: 64,
-      width: 160,
-    };
-
-    const isRecording = useIsRecording();
-    const isRecordingRef = useRef(isRecording);
-
-    useEffect(() => {
-      isRecordingRef.current = isRecording;
-    }, [isRecording]);
-
-    const { isRequestProcessing } = useMemo(
-      () => ({
-        isRequestProcessing:
-          recordingState === Constants.recordingEvents.RECORDING_STARTING ||
-          recordingState === Constants.recordingEvents.RECORDING_STOPPING,
-      }),
-      [recordingState]
-    );
-
-    const _handleClick = () => {
-      const isRecording = isRecordingRef.current;
-
-      if (isRecording) {
-        stopRecording();
-      } else {
-        startRecording();
-      }
-    };
-
-    return (
-      <OutlinedButton
-        Icon={RecordingIcon}
-        onClick={_handleClick}
-        isFocused={isRecording}
-        tooltip={
-          recordingState === Constants.recordingEvents.RECORDING_STARTED
-            ? "Stop Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STARTING
-            ? "Starting Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPED
-            ? "Start Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPING
-            ? "Stopping Recording"
-            : "Start Recording"
-        }
-        lottieOption={isRecording ? defaultOptions : null}
-        isRequestProcessing={isRequestProcessing}
-      />
-    );
-  };
-
-  const MicBTN = () => {
-    const mMeeting = useMeeting();
-    const [mics, setMics] = useState([]);
-    const localMicOn = mMeeting?.localMicOn;
-    const changeMic = mMeeting?.changeMic;
-
-    const user = useUserData();
-    const room = useRoomData();
-
-    const getMics = async (mGetMics) => {
-      const mics = await mGetMics();
-
-      mics && mics?.length && setMics(mics);
-    };
-
-    const [tooltipShow, setTooltipShow] = useState(false);
-    const btnRef = useRef();
-    const tooltipRef = useRef();
-
-    const openTooltip = () => {
-      createPopper(btnRef.current, tooltipRef.current, {
-        placement: "top",
-      });
-      setTooltipShow(true);
-    };
-    const closeTooltip = () => {
-      setTooltipShow(false);
-    };
-
-    function toggleMic() {
-      if (room.micro_for === "all") {
-        mMeeting.toggleMic();
-      }
-      if (user.role === "owner") {
-        mMeeting.toggleMic();
-      }
-    }
-
-    // автоматичексое отключения микро юзерам, если разрешение имеет только owner
-    if (
-      room.micro_for === "owner" &&
-      user.role !== "owner" &&
-      mMeeting.localMicOn
-    ) {
-      mMeeting.toggleMic();
-    }
-
-    return (
-      <>
-        <OutlinedButton
-          Icon={localMicOn ? MicOnIcon : MicOffIcon}
-          onClick={toggleMic}
-          bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
-          borderColor={localMicOn && "#ffffff33"}
-          isFocused={localMicOn}
-          focusIconColor={localMicOn && "white"}
-          tooltip={"Toggle Mic"}
-          renderRightComponent={() => {
-            return (
-              <>
-                <Popover className="relative">
-                  {({ close }) => (
-                    <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
-                        <div
-                          ref={btnRef}
-                          onMouseEnter={openTooltip}
-                          onMouseLeave={closeTooltip}
-                        >
-                          <button
-                            onClick={(e) => {
-                              getMics(mMeeting.getMics);
-                            }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: mMeeting.localMicOn
-                                  ? "#5F6A77"
-                                  : "#5F6A77",
-                              }}
-                            />
-                          </button>
-                        </div>
-                      </Popover.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel className="absolute left-1/2 bottom-full z-10 mt-3 w-72 -translate-x-1/2 transform px-4 sm:px-0 pb-4">
-                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className={" bg-gray-750 py-1"}>
-                              <div>
-                                <div className="flex items-center p-3 pb-0">
-                                  <p className="ml-3 text-sm text-gray-900">
-                                    {"MICROPHONE"}
-                                  </p>
-                                </div>
-                                <div className="flex flex-col">
-                                  {mics.map(({ deviceId, label }, index) => (
-                                    <div
-                                      className={`px-3 py-1 my-1 pl-6 text-white text-left ${
-                                        deviceId === selectMicDeviceId &&
-                                        "bg-gray-150"
-                                      }`}
-                                    >
-                                      <button
-                                        className={`flex flex-1 w-full ${
-                                          deviceId === selectMicDeviceId &&
-                                          "bg-gray-150"
-                                        }`}
-                                        key={`mics_${deviceId}`}
-                                        onClick={() => {
-                                          setSelectMicDeviceId(deviceId);
-                                          changeMic(deviceId);
-                                          close();
-                                        }}
-                                      >
-                                        {label || `Mic ${index + 1}`}
-                                      </button>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Popover.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Popover>
-                <div
-                  style={{ zIndex: 999 }}
-                  className={`${
-                    tooltipShow ? "" : "hidden"
-                  } overflow-hidden flex flex-col items-center justify-center pb-4`}
-                  ref={tooltipRef}
-                >
-                  <div className={"rounded-md p-1.5 bg-black "}>
-                    <p className="text-base text-white ">
-                      {"Change microphone"}
-                    </p>
-                  </div>
-                </div>
-              </>
-            );
-          }}
-        />
-      </>
-    );
-  };
-
-  const WebCamBTN = () => {
-    const mMeeting = useMeeting();
-    const { selectWebcamDeviceId } = useMeetingAppContext();
-
-    const [webcams, setWebcams] = useState([]);
-    const { getVideoTrack } = useMediaStream();
-
-    const localWebcamOn = mMeeting?.localWebcamOn;
-    const disableWebcam = mMeeting?.disableWebcam;
-    const changeWebcam = mMeeting?.changeWebcam;
-
-    const getWebcams = async (mGetWebcams) => {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const webcams = devices.filter(
-        (d) =>
-          d.kind === "videoinput" &&
-          d.deviceId !== "default" &&
-          d.deviceId !== "communications"
-      );
-
-      webcams && webcams?.length && setWebcams(webcams);
-    };
-
-    const [tooltipShow, setTooltipShow] = useState(false);
-    const btnRef = useRef();
-    const tooltipRef = useRef();
-
-    const openTooltip = () => {
-      createPopper(btnRef.current, tooltipRef.current, {
-        placement: "top",
-      });
-      setTooltipShow(true);
-    };
-    const closeTooltip = () => {
-      setTooltipShow(false);
-    };
-
-    return (
-      <>
-        <OutlinedButton
-          Icon={localWebcamOn ? WebcamOnIcon : WebcamOffIcon}
-          onClick={async () => {
-            let track;
-            if (!localWebcamOn) {
-              track = await getVideoTrack({
-                webcamId: selectWebcamDeviceId,
-                encoderConfig: "h540p_w960p",
-              });
-            }
-            mMeeting.toggleWebcam(track);
-          }}
-          bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
-          borderColor={localWebcamOn && "#ffffff33"}
-          isFocused={localWebcamOn}
-          focusIconColor={localWebcamOn && "white"}
-          tooltip={"Toggle Webcam"}
-          renderRightComponent={() => {
-            return (
-              <>
-                <Popover className="relative">
-                  {({ close }) => (
-                    <>
-                      <Popover.Button className="flex items-center justify-center mt-1 mr-1">
-                        <div
-                          ref={btnRef}
-                          onMouseEnter={openTooltip}
-                          onMouseLeave={closeTooltip}
-                        >
-                          <button
-                            onClick={(e) => {
-                              getWebcams(mMeeting?.getWebcams);
-                            }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: localWebcamOn ? "#5F6A77" : "#5F6A77",
-                              }}
-                            />
-                          </button>
-                        </div>
-                      </Popover.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel className="absolute left-1/2 bottom-full z-10 mt-3 w-72 -translate-x-1/2 transform px-4 sm:px-0 pb-4">
-                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className={" bg-gray-750 py-1"}>
-                              <div>
-                                <div className="flex items-center p-3 pb-0">
-                                  <p className="ml-3 text-sm text-gray-900">
-                                    {"WEBCAM"}
-                                  </p>
-                                </div>
-                                <div className="flex flex-col">
-                                  {webcams.map(({ deviceId, label }, index) => (
-                                    <div
-                                      className={`px-3 py-1 my-1 pl-6 text-white text-left ${
-                                        deviceId === selectWebcamDeviceId &&
-                                        "bg-gray-150"
-                                      }`}
-                                    >
-                                      <button
-                                        className={`flex flex-1 w-full ${
-                                          deviceId === selectWebcamDeviceId &&
-                                          "bg-gray-150"
-                                        }`}
-                                        key={`output_webcams_${deviceId}`}
-                                        onClick={async () => {
-                                          setSelectWebcamDeviceId(deviceId);
-                                          await disableWebcam();
-                                          let customTrack = await getVideoTrack(
-                                            {
-                                              webcamId: deviceId,
-                                              encoderConfig: "h540p_w960p",
-                                            }
-                                          );
-
-                                          changeWebcam(customTrack);
-                                          setTimeout(() => {
-                                            close();
-                                          }, 200);
-                                        }}
-                                      >
-                                        {label || `Webcam ${index + 1}`}
-                                      </button>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Popover.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Popover>
-                <div
-                  style={{ zIndex: 999 }}
-                  className={`${
-                    tooltipShow ? "" : "hidden"
-                  } overflow-hidden flex flex-col items-center justify-center pb-4`}
-                  ref={tooltipRef}
-                >
-                  <div className={"rounded-md p-1.5 bg-black "}>
-                    <p className="text-base text-white ">{"Change webcam"}</p>
-                  </div>
-                </div>
-              </>
-            );
-          }}
-        />
-      </>
-    );
-  };
-
-  const ScreenShareBTNWrapper = observer(({ isMobile, isTab }) => {
-    return (
-      <ScreenShareBTN isMobile={isMobile} isTab={isTab} activeEmail={activeUserSharing.state} />
-    )
-  })
-
-  const ScreenShareBTN = ({ isMobile, isTab, activeEmail }) => {
-    const { localScreenShareOn, toggleScreenShare, presenterId } = useMeeting();
-    const email = localStorage.getItem("email");
-  
-    if (activeEmail === email && localScreenShareOn === false) {
-      console.log(localScreenShareOn);
-      toggleScreenShare();
-    } 
-
-    return isMobile || isTab ? (
-      <MobileIconButton
-        id="screen-share-btn"
-        tooltipTitle={
-          presenterId
-            ? localScreenShareOn
-              ? "Stop Presenting"
-              : null
-            : "Present Screen"
-        }
-        buttonText={
-          presenterId
-            ? localScreenShareOn
-              ? "Stop Presenting"
-              : null
-            : "Present Screen"
-        }
-        isFocused={localScreenShareOn}
-        Icon={ScreenShareIcon}
-        onClick={() => {
-          toggleScreenShare();
-        }}
-        disabled={
-          presenterId
-            ? localScreenShareOn
-              ? false
-              : true
-            : isMobile
-            ? true
-            : false
-        }
-      />
-    ) : (
-      <OutlinedButton
-        Icon={ScreenShareIcon}
-        onClick={() => {
-          toggleScreenShare();
-        }}
-        isFocused={localScreenShareOn}
-        tooltip={
-          presenterId
-            ? localScreenShareOn
-              ? "Stop Presenting"
-              : null
-            : "Present Screen"
-        }
-        disabled={presenterId ? (localScreenShareOn ? false : true) : false}
-      />
-    );
-  };
-
-  const LeaveBTN = () => {
-    const { leave } = useMeeting();
-
-    function toLobby() {
-      window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}lobby`;
-    }
-
-    return (
-      <OutlinedButton
-        Icon={EndIcon}
-        bgColor="#F95A39"
-        onClick={() => {
-          leave();
-          setIsMeetingLeft(true);
-          toLobby();
-        }}
-        tooltip="Leave Meeting"
-      />
-    );
-  };
-
-  const ChatBTN = ({ isMobile, isTab }) => {
-    return isMobile || isTab ? (
-      <MobileIconButton
-        tooltipTitle={"Chat"}
-        buttonText={"Chat"}
-        Icon={ChatIcon}
-        isFocused={sideBarMode === sideBarModes.CHAT}
-        onClick={() => {
-          setSideBarMode((s) =>
-            s === sideBarModes.CHAT ? null : sideBarModes.CHAT
-          );
-        }}
-      />
-    ) : (
-      <OutlinedButton
-        Icon={ChatIcon}
-        onClick={() => {
-          setSideBarMode((s) =>
-            s === sideBarModes.CHAT ? null : sideBarModes.CHAT
-          );
-        }}
-        isFocused={sideBarMode === "CHAT"}
-        tooltip="View Chat"
-      />
-    );
-  };
-
-  const Buttons = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    width: 223px;
-  `;
-  /* eslint-disable */
-  const SettingsBTN = observer(() => {
-    const [popupActive, setPopupActive] = useState(false);
-
-    function updateSettings(e) {
-      e.preventDefault();
-
-      const roomId = localStorage.getItem("roomId");
-      const email = localStorage.getItem("email");
-
-      const updatedSettings = {
-        user_channel_name: nameState.state,
-        webcam_for: webcamState.state,
-        screenshare_for: screenshareState.state,
-        screenrecord_for: recordState.state,
-        micro_for: microState.state,
-      };
-
-      fetch(
-        `https://network-class-server.ru/user_channels/setting/${roomId}/${email}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(updatedSettings),
-        }
-      )
-        .then((response) => response.text())
-        .then((response) => {
-          response = JSON.parse(response);
-          console.log(response);
-        });
-    }
-
-    return (
-      <>
-        <Popup active={popupActive} setActive={setPopupActive}>
-          <form onSubmit={updateSettings}>
-            <Header />
-            {formVisibleState.state === "my" ? (
-              <MySettings />
-            ) : (
-              <ChannelSettings />
-            )}
-            <Buttons>
-              <SubmitButton type="submit">Сохранить</SubmitButton>
-              <CancelButton type="button" onClick={() => setPopupActive(false)}>
-                Отмена
-              </CancelButton>
-            </Buttons>
-          </form>
-        </Popup>
-        <OutlinedButton
-          Icon={SettingsIcon}
-          bgColor="#fff"
-          onClick={() => {
-            setPopupActive(true);
-          }}
-          tooltip="открыть настройки"
-        />
-      </>
-    );
-  });
-
   const tollTipEl = useRef();
   const isMobile = useIsMobile();
   const isTab = useIsTab();
@@ -802,8 +803,11 @@ export function BottomBar({
       style={{ height: bottomBarHeight }}
     >
       <LeaveBTN />
-      <MicBTN />
-      <WebCamBTN />
+      <MicBTN
+        selectMicDeviceId={selectMicDeviceId}
+        setSelectMicDeviceId={setSelectMicDeviceId}
+      />
+      <WebCamBTN setSelectWebcamDeviceId={setSelectWebcamDeviceId} />
       <RecordingBTN />
       <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} />
       <Transition appear show={Boolean(open)} as={Fragment}>
@@ -891,7 +895,7 @@ export function BottomBar({
         <SettingsBTN />
       </div>
       <div className="flex items-center justify-center">
-        <LeaveBTN />
+        <LeaveBTN setIsMeetingLeft={setIsMeetingLeft} />
       </div>
     </div>
   );
