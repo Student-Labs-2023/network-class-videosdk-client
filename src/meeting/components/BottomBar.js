@@ -30,6 +30,8 @@ import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
 import Popup from "../../components/Popup";
 import Header from "./Settings/Header";
+import { useParticipant } from "@videosdk.live/react-sdk";
+import microphone from "../store/microphone";
 
 import styled from 'styled-components';
 import SubmitButton from "./Settings/ui/SubmitButton";
@@ -289,16 +291,6 @@ export function BottomBar({
     };
 
     function toggleMic() {
-      if (room.micro_for === 'all') {
-        mMeeting.toggleMic();
-      }
-      if (user.role === 'owner') {
-        mMeeting.toggleMic();
-      }
-    }
-
-    // автоматичексое отключения микро юзерам, если разрешение имеет только owner 
-    if (room.micro_for === 'owner' && user.role !== 'owner' && mMeeting.localMicOn) {
       mMeeting.toggleMic();
     }
 
@@ -690,6 +682,21 @@ export function BottomBar({
   /* eslint-disable */
   const SettingsBTN = observer(() => {
     const [popupActive, setPopupActive] = useState(false);
+    const roomId = localStorage.getItem("roomId");
+
+    function getSettings() {
+      fetch(`https://network-class-server.ru/channels/${roomId}`, {
+          method : 'GET',
+          headers: {
+            'Content-type': 'application/json',
+          },
+        })
+        .then(response => response.text())
+        .then(response => {
+            response = JSON.parse(response);
+            microphone.change(response.micro_for);
+        })
+  }
 
     function updateSettings(e) {
       e.preventDefault();
@@ -715,7 +722,7 @@ export function BottomBar({
       .then(response => response.text())
       .then(response => {
           response = JSON.parse(response);
-          console.log(response);
+          getSettings();
       })
     }
     
