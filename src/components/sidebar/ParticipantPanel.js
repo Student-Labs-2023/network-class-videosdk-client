@@ -19,6 +19,33 @@ function ParticipantListItem({ participantId, raisedHand }) {
   const user = useUserData();
   const room = useRoomData();
 
+  function setPresenterId(e) {
+    e.preventDefault();
+
+    const roomId = localStorage.getItem("roomId");
+    const email = localStorage.getItem("email");
+
+    const updatedPresenter = {
+      presenter_id: participantId
+    };
+
+      fetch(
+        `https://network-class-server.ru/channels/${roomId}/presenter?email=${email}`,
+        {
+          method : 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body : JSON.stringify(updatedPresenter),
+        }
+      )
+        .then((response) => response.text())
+        .then((response) => {
+          response = JSON.parse(response);
+          activeUserSharing.on(response.participant_id);
+      });
+  }
+
   return (
     <div className="mt-2 m-2 p-2 bg-white rounded-lg mb-0">
       <div className="flex flex-1 items-center justify-center relative">
@@ -46,9 +73,13 @@ function ParticipantListItem({ participantId, raisedHand }) {
         <div className="m-1 p-1">
           {webcamOn ? <VideoCamOnIcon /> : <VideoCamOffIcon />}
         </div>
-        <button onClick={() => activeUserSharing.on(user.email)} className="m-1 p-1">
-          {screenShareOn ? <ScreenShareOnIcon /> : <ScreenShareOffIcon />}
-        </button>
+        {/* {screenShareOn ? <ScreenShareOnIcon /> : <ScreenShareOffIcon />} */}
+        {user.role === 'owner' ?
+          <button onClick={setPresenterId} className="m-1 p-1">
+            <ScreenShareOnIcon />
+          </button> :
+          <ScreenShareOnIcon />
+        }
       </div>
     </div>
   );

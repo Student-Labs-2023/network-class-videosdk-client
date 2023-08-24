@@ -6,8 +6,8 @@ class activeUserSharing {
         makeAutoObservable(this)
     }
 
-    on(email) {
-        this.state = email;
+    on(id) {
+        this.state = id;
     }
 
     off() {

@@ -25,8 +25,7 @@ import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
 import Popup from "../../components/Popup";
 import Header from "./Settings/Header";
-import { useParticipant } from "@videosdk.live/react-sdk";
-import microphone from "../store/microphone";
+import mic from './store/mic';
 
 import styled from "styled-components";
 import SubmitButton from "./Settings/ui/SubmitButton";
@@ -254,7 +253,7 @@ const RecordingBTN = () => {
   );
 };
 
-const MicBTN = ({ selectMicDeviceId, setSelectMicDeviceId }) => {
+const MicBTN = observer(({ selectMicDeviceId, setSelectMicDeviceId }) => {
   const mMeeting = useMeeting();
   const [mics, setMics] = useState([]);
   const localMicOn = mMeeting?.localMicOn;
@@ -284,7 +283,7 @@ const MicBTN = ({ selectMicDeviceId, setSelectMicDeviceId }) => {
   };
 
     function toggleMic() {
-      if (room.micro_for === 'all') {
+      if (room.micro_for === 'all' || mic.state === 'all') {
         mMeeting.toggleMic();
       }
       if (user.role === 'owner') {
@@ -300,6 +299,10 @@ const MicBTN = ({ selectMicDeviceId, setSelectMicDeviceId }) => {
     ) {
       mMeeting.toggleMic();
     }
+
+    useEffect(() => {
+      console.log(mic.state);
+    }, [mic.state])
 
   return (
     <>
@@ -407,7 +410,7 @@ const MicBTN = ({ selectMicDeviceId, setSelectMicDeviceId }) => {
       />
     </>
   );
-};
+});
 
 const WebCamBTN = ({ setSelectWebcamDeviceId }) => {
   const mMeeting = useMeeting();
@@ -569,14 +572,31 @@ const WebCamBTN = ({ setSelectWebcamDeviceId }) => {
   );
 };
 
-const ScreenShareBTN = ({ isMobile, isTab, activeEmail }) => {
-  const { localScreenShareOn, toggleScreenShare, presenterId } = useMeeting();
+const ScreenShareBTN = observer(({ isMobile, isTab, activeEmail }) => {
+  const { localScreenShareOn, toggleScreenShare, presenterId, participants } = useMeeting();
   const email = localStorage.getItem("email");
+  const user = useUserData();
+  const room = useRoomData();
 
-  if (activeEmail === email && localScreenShareOn === false) {
-    console.log(localScreenShareOn);
-    toggleScreenShare();
+  function toggleSharing() {
+    for (let participant of participants.values()) {
+      console.log(participant.id);
+      if (participant.id === activeUserSharing.state) {
+        console.log('log');
+        if (participant.displayName === user.name_channel) {
+          toggleScreenShare();
+        }
+      }
+    }
   }
+
+  useEffect(() => {
+    toggleSharing();
+  }, [activeUserSharing.state])
+
+  useEffect(() => {
+    console.log(presenterId);
+  }, [presenterId])
 
   return isMobile || isTab ? (
     <MobileIconButton
@@ -627,7 +647,7 @@ const ScreenShareBTN = ({ isMobile, isTab, activeEmail }) => {
       disabled={presenterId ? (localScreenShareOn ? false : true) : false}
     />
   );
-};
+});
 
 const LeaveBTN = ({ setIsMeetingLeft }) => {
   const { leave } = useMeeting();
@@ -709,7 +729,7 @@ const SettingsBTN = observer(() => {
         .then((response) => response.text())
         .then((response) => {
           response = JSON.parse(response);
-          console.log(response);
+          mic.change(response.micro_for);
         });
     }
 

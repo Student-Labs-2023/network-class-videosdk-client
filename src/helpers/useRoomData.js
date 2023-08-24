@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import activeUserSharing from '../meeting/components/Settings/store/activeUserSharing';
 
 export function useRoomData() {
     const [roomData, setRoomData] = useState({});
@@ -15,6 +16,7 @@ export function useRoomData() {
           .then(response => {
               response = JSON.parse(response);
               setRoomData(response);
+              activeUserSharing.on(response.presenter_id);
           })
     }
 
