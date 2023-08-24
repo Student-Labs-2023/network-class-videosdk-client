@@ -5,10 +5,6 @@ git clone -b popup https://github.com/Student-Labs-2023/network-class-videosdk-c
 
 cd network-class-videosdk-client
 
-npm install --force
-
-npm run start
-
 # Переменные окружения
 Для корректной работы приложения потребуется настроить переменные окружения
 в корневой директории создайте файл .env
@@ -22,6 +18,10 @@ REACT_APP_NETWORKCLASS_URL = "http://localhost:5173"
 SERVER_URL = "https://network-class-server.ru"
 
 скопируйте эти 4 строчки и вставьте в файл, который вы создали
+
+npm install --force
+
+npm run start
 
 # Примечание
 при запуске проект автоматически открывается в браузере, закройте эту вкладку,
