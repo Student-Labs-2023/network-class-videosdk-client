@@ -44,7 +44,10 @@ export const ChatMessages = ({ listHeight }) => {
   }, [messages]);
 
   return messages ? (
-    <div ref={listRef} style={{ overflowY: "auto", height: listHeight }}>
+    <div
+      ref={listRef}
+      style={{ overflowY: "auto", height: listHeight, marginBottom: "10px" }}
+    >
       <div
         className="p-4 flex flex-col justify-end"
         style={{ minHeight: "100%" }}

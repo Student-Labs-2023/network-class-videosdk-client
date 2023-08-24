@@ -22,12 +22,12 @@ const Paragraph = styled.div`
 `;
 
 export const EnterProfileButton = () => {
-  //   function enterProfile() {
-  //     window.location.href = "/profile";
-  //   }
+  function enterProfile() {
+    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}profile`;
+  }
 
   return (
-    <Container>
+    <Container onClick={enterProfile}>
       <img src={settingsIcon} alt="Настройки" />
       <Paragraph>Настройки профиля</Paragraph>
     </Container>

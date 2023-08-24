@@ -69,7 +69,7 @@ const EmojiList = styled.div`
   transition: all 0.2s ease;
 `;
 
-export const ChatInput = ({ inputHeight }) => {
+export const ChatInput = () => {
   const [message, setMessage] = useState("");
   const [emojiActive, setEmojiActive] = useState(false);
   const { publish } = usePubSub("CHAT");
@@ -78,7 +78,7 @@ export const ChatInput = ({ inputHeight }) => {
   return (
     <div
       className="w-full flex items-center px-2"
-      style={{ height: inputHeight, background: "#FFF", gap: "6px" }}
+      style={{ background: "#FFF", gap: "6px" }}
     >
       <div className="relative flex-1">
         <Emoji

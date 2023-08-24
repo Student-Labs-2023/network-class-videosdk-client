@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Left = styled.div`
-  width: 325px;
+  width: 225px;
   display: flex;
   justify-content: space-between;
 `;
@@ -47,7 +47,7 @@ const Header = () => {
       <Left>
         <Image src={logo} alt="" onClick={toLobby} />
         <Logo href={`${process.env.REACT_APP_NETWORKCLASS_URL}`}>
-          Сетевой учебный класс
+          Сетевой класс
         </Logo>
       </Left>
       <ProfilePanel />

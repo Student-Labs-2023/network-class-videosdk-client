@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import { useMeeting } from "@videosdk.live/react-sdk";
-import { useRoomData } from '../../helpers/useRoomData';
+import { useRoomData } from "../../helpers/useRoomData";
+import { CopyLink } from "../../components/buttons/CopyLink";
 
 const Container = styled.div`
   display: flex;
   width: 100%;
-  max-width: 1320px;
-  height: 57px;
+  flex: 0 0;
   align-items: center;
-  margin: 16px auto 11px;
+  padding: 16px 87px 11px 60px;
 `;
 
 const Info = styled.div`
@@ -17,6 +17,7 @@ const Info = styled.div`
   grid-template-columns: repeat(2, max-content);
   gap: 0 14px;
   align-items: center;
+  margin-right: -8px;
 `;
 
 const Title = styled.h1`
@@ -42,18 +43,29 @@ const styleSwitch = {
 };
 
 const TopBar = () => {
-  const { participants } = useMeeting();
+  const { participants, meetingId } = useMeeting();
   const room = useRoomData();
 
   return (
     <Container>
-        <Info>
-            <Title>{room.title}</Title>
-            <div></div>
-            <Paragraph>{participants?.size} участников</Paragraph>
-        </Info>
+      <Info>
+        <Title>{room.title}</Title>
+        <div></div>
+        <Paragraph>{participants?.size} участников</Paragraph>
+      </Info>
+      <button
+        onClick={() => navigator.clipboard.writeText(meetingId)}
+        style={{
+          width: "34px",
+          height: "34px",
+          position: "relative",
+          top: "-5px",
+        }}
+      >
+        <CopyLink />
+      </button>
     </Container>
-  )
-}
+  );
+};
 
 export default TopBar;
