@@ -653,7 +653,7 @@ export function BottomBar({
         onClick={() => {
           leave();
           setIsMeetingLeft(true);
-
+          toLobby();
         }}
         tooltip="Leave Meeting"
       />
