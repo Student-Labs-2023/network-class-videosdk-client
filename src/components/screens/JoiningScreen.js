@@ -9,7 +9,7 @@ import WebcamOnIcon from "../../icons/Bottombar/WebcamOnIcon";
 import MicOffIcon from "../../icons/MicOffIcon";
 import MicOnIcon from "../../icons/Bottombar/MicOnIcon";
 import micro from "../../icons/micro.svg";
-import Header from "../Header";
+// import Header from "../Header";
 import avatar from "../../icons/camera.svg";
 import CameraIcon from "../../icons/CameraIcon";
 import { SelectDevice } from "../buttons/SelectDevice";
@@ -368,7 +368,7 @@ export function JoiningScreen({
 
   return (
     <div className="fixed inset-0 flex flex-col">
-      <Header />
+      {/* <Header /> */}
       <div className="overflow-y-auto overflow-x-hidden flex-1 bg-gray-0">
         <div style={{ margin: "12px 42px 10px 72px", minHeight: "100%" }}>
           <div className="grid grid-cols-12">
