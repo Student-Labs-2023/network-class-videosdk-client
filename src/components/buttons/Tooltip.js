@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Container = styled.div`
   position: relative;
   display: inline-block;
+  z-index: 1000;
 `;
 
 const Content = styled.div`

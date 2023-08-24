@@ -45,23 +45,26 @@ const Call = () => {
   localStorage.setItem("roomId", roomId);
 
   async function connectRoom() {
-    await fetch(`https://network-class-server.ru/user_channels/connect?email=${email}&channel_id=${roomId}`, {
-      method : 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-    .then(response => response.text())
-    .then(response => {
+    await fetch(
+      `https://network-class-server.ru/user_channels/connect?email=${email}&channel_id=${roomId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.text())
+      .then((response) => {
         response = JSON.parse(response);
         setUser(response);
-    })
+      });
   }
 
   useEffect(() => {
     connectRoom();
-  }, [])
-  
+  }, []);
+
   return (
     <>
       {isMeetingStarted ? (
@@ -105,8 +108,6 @@ const Call = () => {
             />
           </MeetingProvider>
         </MeetingAppProvider>
-      ) : isMeetingLeft ? (
-        <LeaveScreen setIsMeetingLeft={setIsMeetingLeft} />
       ) : (
         <JoiningScreen
           participantName={participantName}

@@ -264,7 +264,11 @@ export function MeetingContainer({
 
   return (
     <div className="flex" style={{ height: "100vh" }}>
-      <div ref={containerRef} className="h-full flex-1 flex flex-col bg-white">
+      <div
+        ref={containerRef}
+        className="h-full flex-1 flex flex-col bg-white"
+        style={{ transition: "all 0.3s ease-out" }}
+      >
         {typeof localParticipantAllowedJoin === "boolean" ? (
           localParticipantAllowedJoin ? (
             <>

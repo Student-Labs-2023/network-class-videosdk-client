@@ -11,6 +11,7 @@ import MicOnIcon from "../../icons/Bottombar/MicOnIcon";
 import micro from "../../icons/micro.svg";
 import Header from "../Header";
 import avatar from "../../icons/camera.svg";
+import CameraIcon from "../../icons/CameraIcon";
 import { SelectDevice } from "../buttons/SelectDevice";
 import { ButtonWithTooltip } from "../buttons/ButtonWithTooltip";
 import styles from "./styles.module.css";
@@ -65,9 +66,9 @@ export function JoiningScreen({
   const webcamOn = useMemo(() => !!videoTrack, [videoTrack]);
   const micOn = useMemo(() => !!audioTrack, [audioTrack]);
 
-  const [stateEnter, setStateEnter] = useState("Занятие началось");
+  // const [stateEnter, setStateEnter] = useState("Занятие началось");
 
-  console.log(setStateEnter);
+  const [countParts, setCountParts] = useState(0);
 
   useEffect(() => {
     getDevices({ micEnabled, webcamEnabled });
@@ -366,177 +367,136 @@ export function JoiningScreen({
   };
 
   return (
-    <div className="fixed inset-0">
+    <div className="fixed inset-0 flex flex-col">
       <Header />
-      <div className="overflow-y-auto flex flex-col flex-1 h-screen bg-gray-0">
-        <div
-          className="flex flex-1 flex-col md:flex-row items-center justify-center"
-          style={{ margin: "12px 42px 0 72px" }}
-        >
-          <div className="container grid  md:grid-flow-col grid-flow-row ">
-            <div className="grid grid-cols-12">
-              <div className="md:col-span-7 2xl:col-span-6 col-span-12">
-                <div className="flex items-center justify-center p-1.5 sm:p-4 lg:p-6">
-                  <div className="relative w-full md:pl-4 sm:pl-10 pl-5  md:pr-4 sm:pr-10 pr-5">
-                    <BackButton />
-                    <div
-                      className="w-full relative"
+      <div className="overflow-y-auto overflow-x-hidden flex-1 bg-gray-0">
+        <div style={{ margin: "12px 42px 10px 72px", minHeight: "100%" }}>
+          <div className="grid grid-cols-12">
+            <div className="md:col-span-7 2xl:col-span-6 col-span-12">
+              <div className="flex justify-center p-1.5 sm:p-4 lg:p-6">
+                <div className="relative w-full md:pl-4 sm:pl-10 pl-5  md:pr-4 sm:pr-10 pr-5">
+                  <BackButton />
+                  <div
+                    className="w-full relative"
+                    style={{
+                      height: "45vh",
+                      minHeight: "300px",
+                      minWidth: "500px",
+                    }}
+                  >
+                    <video
+                      autoPlay
+                      playsInline
+                      muted
+                      ref={videoPlayerRef}
+                      controls={false}
                       style={{
-                        height: "45vh",
-                        minHeight: "300px",
-                        minWidth: "500px",
+                        backgroundColor: "#D5DEE8",
+                        transform: "scaleX(-1)",
+                        outline: `${
+                          speak ? "4px solid var(--blue, #175EF1)" : "none"
+                        }`,
                       }}
-                    >
-                      <video
-                        autoPlay
-                        playsInline
-                        muted
-                        ref={videoPlayerRef}
-                        controls={false}
-                        style={{
-                          backgroundColor: "#D5DEE8",
-                          transform: "scaleX(-1)",
-                          outline: `${
-                            speak ? "4px solid var(--blue, #175EF1)" : "none"
-                          }`,
-                        }}
-                        className={
-                          "rounded-[10px] h-full w-full object-cover flex items-center justify-center flip"
-                        }
-                      />
-                      <img
-                        src={micro}
-                        alt=""
-                        style={
-                          speak
-                            ? {
-                                position: "absolute",
-                                top: "11px",
-                                left: "12px",
-                              }
-                            : { display: "none" }
-                        }
-                      ></img>
+                      className={
+                        "rounded-[10px] h-full w-full object-cover flex items-center justify-center flip"
+                      }
+                    />
+                    <img
+                      src={micro}
+                      alt=""
+                      style={
+                        speak
+                          ? {
+                              position: "absolute",
+                              top: "11px",
+                              left: "12px",
+                            }
+                          : { display: "none" }
+                      }
+                    ></img>
 
-                      {!isMobile ? (
-                        <>
-                          <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
-                            {!webcamOn ? (
-                              <p className="text-xl xl:text-lg 2xl:text-xl">
-                                {meetingMode === Constants.modes.VIEWER ? (
-                                  "You are not permitted to use your microphone and camera."
-                                ) : (
-                                  <div className={styles.camOff}>
-                                    Камера выключена
-                                  </div>
-                                )}
-                              </p>
-                            ) : null}
-                          </div>
-                        </>
-                      ) : null}
-                      <div className="absolute xl:bottom-6 bottom-4 left-0 right-0">
-                        <div className="container grid grid-flow-col space-x-4 items-center justify-center md:-m-2">
-                          <ButtonWithTooltip
-                            onClick={_handleToggleMic}
-                            onState={micOn}
-                            mic={true}
-                            OnIcon={MicOnIcon}
-                            OffIcon={MicOffIcon}
-                            meetingMode={meetingMode}
-                          />
-                          <ButtonWithTooltip
-                            onClick={_toggleWebcam}
-                            onState={webcamOn}
-                            mic={false}
-                            OnIcon={WebcamOnIcon}
-                            OffIcon={WebcamOffIcon}
-                            meetingMode={meetingMode}
-                          />
+                    {!isMobile ? (
+                      <>
+                        <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
+                          {!webcamOn ? (
+                            <p className="text-xl xl:text-lg 2xl:text-xl">
+                              {meetingMode === Constants.modes.VIEWER ? (
+                                "You are not permitted to use your microphone and camera."
+                              ) : (
+                                <div className={styles.camOff}>
+                                  Камера выключена
+                                </div>
+                              )}
+                            </p>
+                          ) : null}
                         </div>
+                      </>
+                    ) : null}
+                    <div className="absolute xl:bottom-6 bottom-4 left-0 right-0">
+                      <div className="container grid grid-flow-col space-x-4 items-center justify-center md:-m-2">
+                        <ButtonWithTooltip
+                          onClick={_handleToggleMic}
+                          onState={micOn}
+                          mic={true}
+                          OnIcon={MicOnIcon}
+                          OffIcon={MicOffIcon}
+                          meetingMode={meetingMode}
+                        />
+                        <ButtonWithTooltip
+                          onClick={_toggleWebcam}
+                          onState={webcamOn}
+                          mic={false}
+                          OnIcon={WebcamOnIcon}
+                          OffIcon={WebcamOffIcon}
+                          meetingMode={meetingMode}
+                        />
                       </div>
                     </div>
+                  </div>
 
-                    {!isMobile &&
-                      meetingMode === Constants.modes.CONFERENCE && (
-                        <div className={styles.settingsVideo}>
-                          <SelectDevice
-                            title="МИКРОФОН"
-                            list={mics}
-                            setSelected={setSelectedMic}
-                            changeDevice={changeMic}
-                          />
-                          <SelectDevice
-                            title="КАМЕРА"
-                            list={webcams}
-                            setSelected={setSelectedWebcam}
-                            changeDevice={changeWebcam}
-                          />
-                          {/* <SelectDevice
+                  {!isMobile && meetingMode === Constants.modes.CONFERENCE && (
+                    <div className={styles.settingsVideo}>
+                      <SelectDevice
+                        title="МИКРОФОН"
+                        list={mics}
+                        setSelected={setSelectedMic}
+                        changeDevice={changeMic}
+                      />
+                      <SelectDevice
+                        title="КАМЕРА"
+                        list={webcams}
+                        setSelected={setSelectedWebcam}
+                        changeDevice={changeWebcam}
+                      />
+                      {/* <SelectDevice
                             title="ЗВУК"
                             list={audio}
                             setSelected={setSelectedAudio}
                             changeDevice={changeAudio}
                           /> */}
-                        </div>
-                      )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="md:col-span-5 2xl:col-span-6 col-span-12 md:relative" style={{paddingTop: "100px"}}>
-                <div className={styles.info}>
-                  <img src={avatar} alt="" style={{ height: "86px", borderRadius: "10px" }} />
-                  <div>
-                    <div className={styles.title}>Математика 7 класс</div>
-                    <CopyLink />
-                  </div>
-                  <div className={styles.owner}>Морозов Антон Дмитриевич</div>
-                  <div className={styles.count}>0 участников</div>
-                  <div style={{ textAlign: "center" }}>
-                    <MeetingDetailsScreen
-                      participantName={participantName}
-                      setParticipantName={setParticipantName}
-                      videoTrack={videoTrack}
-                      setVideoTrack={setVideoTrack}
-                      onClickStartMeeting={onClickStartMeeting}
-                      onClickJoin={async (id) => {
-                        const token = await getToken();
-                        const valid = await validateMeeting({
-                          roomId: id,
-                          token,
-                        });
-
-                        if (valid) {
-                          setToken(token);
-                          setMeetingId(id);
-                          if (videoTrack) {
-                            videoTrack.stop();
-                            setVideoTrack(null);
-                          }
-                          onClickStartMeeting();
-                          setParticipantName("");
-                        } else alert("Invalid Meeting Id");
-                      }}
-                      _handleOnCreateMeeting={async () => {
-                        const token = await getToken();
-                        const _meetingId = await createMeeting({ token });
-                        setToken(token);
-                        setMeetingId(_meetingId);
-                        setParticipantName("");
-                        return _meetingId;
-                      }}
-                    />
-                    {stateEnter === "Занятие началось" ||
-                    stateEnter === "Дождитесь разрешения на подключение" ? (
-                      <div className={styles.stateOn}>{stateEnter}</div>
-                    ) : (
-                      <div className={styles.stateOff}>{stateEnter}</div>
-                    )}
-                  </div>
+            </div>
+            <div
+              className="md:col-span-5 2xl:col-span-6 col-span-12 md:relative"
+              style={{ paddingTop: "100px" }}
+            >
+              <div className={styles.info}>
+                <CameraIcon height="86px" borderRadius="10px" />
+                {/* <img
+                  src={avatar}
+                  alt=""
+                  style={{ height: "86px", borderRadius: "10px" }}
+                /> */}
+                <div>
+                  <div className={styles.title}>Математика 7 класс</div>
+                  <CopyLink />
                 </div>
-              </div>
-              {/* <div className="md:col-span-5 2xl:col-span-6 col-span-12 md:relative">
-                <div className="flex flex-1 flex-col items-center justify-center xl:m-16 lg:m-6 md:mt-9 lg:mt-14 xl:mt-20 mt-3 md:absolute md:left-0 md:right-0 md:top-0 md:bottom-0">
+                <div className={styles.owner}>Морозов Антон Дмитриевич</div>
+                <div className={styles.count}>{countParts} участников</div>
+                <div style={{ textAlign: "center" }}>
                   <MeetingDetailsScreen
                     participantName={participantName}
                     setParticipantName={setParticipantName}
@@ -570,8 +530,14 @@ export function JoiningScreen({
                       return _meetingId;
                     }}
                   />
+                  {/* {stateEnter === "Занятие началось" ||
+                  stateEnter === "Дождитесь разрешения на подключение" ? (
+                    <div className={styles.stateOn}>{stateEnter}</div>
+                  ) : (
+                    <div className={styles.stateOff}>{stateEnter}</div>
+                  )} */}
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

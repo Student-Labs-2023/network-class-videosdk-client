@@ -10,7 +10,7 @@ export function ChatPanel({ panelHeight }) {
   return (
     <div>
       <ChatMessages listHeight={listHeight} />
-      <ChatInput inputHeight={inputHeight} />
+      <ChatInput />
     </div>
   );
 }

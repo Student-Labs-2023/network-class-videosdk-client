@@ -1,11 +1,6 @@
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import {
-  ClipboardIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@heroicons/react/outline";
+import { ChevronDownIcon, DotsHorizontalIcon } from "@heroicons/react/outline";
 import recordingBlink from "../../static/animations/recording-blink.json";
 import useIsRecording from "../../hooks/useIsRecording";
 import RecordingIcon from "../../icons/Bottombar/RecordingIcon";
@@ -31,13 +26,13 @@ import useMediaStream from "../../hooks/useMediaStream";
 import Popup from "../../components/Popup";
 import Header from "./Settings/Header";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 import SubmitButton from "./Settings/ui/SubmitButton";
 import CancelButton from "./Settings/ui/CancelButton";
 import { observer } from "mobx-react-lite";
 import formVisibleState from "./Settings/store/formVisibleState";
 import MySettings from "./Settings/MySettings";
-import ChannelSettings from './Settings/ChannelSettings';
+import ChannelSettings from "./Settings/ChannelSettings";
 import webcamState from "./Settings/store/webcamState";
 import screenshareState from "./Settings/store/screenshareState";
 import microState from "./Settings/store/microState";
@@ -288,16 +283,20 @@ export function BottomBar({
     };
 
     function toggleMic() {
-      if (room.micro_for === 'all') {
+      if (room.micro_for === "all") {
         mMeeting.toggleMic();
       }
-      if (user.role === 'owner') {
+      if (user.role === "owner") {
         mMeeting.toggleMic();
       }
     }
 
-    // автоматичексое отключения микро юзерам, если разрешение имеет только owner 
-    if (room.micro_for === 'owner' && user.role !== 'owner' && mMeeting.localMicOn) {
+    // автоматичексое отключения микро юзерам, если разрешение имеет только owner
+    if (
+      room.micro_for === "owner" &&
+      user.role !== "owner" &&
+      mMeeting.localMicOn
+    ) {
       mMeeting.toggleMic();
     }
 
@@ -331,7 +330,9 @@ export function BottomBar({
                             <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
-                                color: mMeeting.localMicOn ? "#5F6A77" : "#5F6A77",
+                                color: mMeeting.localMicOn
+                                  ? "#5F6A77"
+                                  : "#5F6A77",
                               }}
                             />
                           </button>
@@ -628,15 +629,18 @@ export function BottomBar({
   const LeaveBTN = () => {
     const { leave } = useMeeting();
 
+    function toLobby() {
+      window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}lobby`;
+    }
+
     return (
       <OutlinedButton
         Icon={EndIcon}
         bgColor="#F95A39"
         onClick={() => {
           leave();
-          console.log('log');
           setIsMeetingLeft(true);
-          console.log('log');
+          toLobby();
         }}
         tooltip="Leave Meeting"
       />
@@ -675,7 +679,7 @@ export function BottomBar({
     justify-content: space-between;
     margin: 0 auto;
     width: 223px;
-  `
+  `;
   /* eslint-disable */
   const SettingsBTN = observer(() => {
     const [popupActive, setPopupActive] = useState(false);
@@ -691,32 +695,41 @@ export function BottomBar({
         webcam_for: webcamState.state,
         screenshare_for: screenshareState.state,
         screenrecord_for: recordState.state,
-        micro_for: microState.state
-      }
+        micro_for: microState.state,
+      };
 
-      fetch(`https://network-class-server.ru/user_channels/setting/${roomId}/${email}`, {
-        method : 'PUT',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body : JSON.stringify(updatedSettings),
-      })
-      .then(response => response.text())
-      .then(response => {
+      fetch(
+        `https://network-class-server.ru/user_channels/setting/${roomId}/${email}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(updatedSettings),
+        }
+      )
+        .then((response) => response.text())
+        .then((response) => {
           response = JSON.parse(response);
           console.log(response);
-      })
+        });
     }
-    
+
     return (
       <>
         <Popup active={popupActive} setActive={setPopupActive}>
           <form onSubmit={updateSettings}>
-            <Header/>
-            {formVisibleState.state === "my" ? <MySettings/> : <ChannelSettings/>}
+            <Header />
+            {formVisibleState.state === "my" ? (
+              <MySettings />
+            ) : (
+              <ChannelSettings />
+            )}
             <Buttons>
-              <SubmitButton type='submit'>Сохранить</SubmitButton>
-              <CancelButton type='button' onClick={() => setPopupActive(false)}>Отмена</CancelButton>
+              <SubmitButton type="submit">Сохранить</SubmitButton>
+              <CancelButton type="button" onClick={() => setPopupActive(false)}>
+                Отмена
+              </CancelButton>
             </Buttons>
           </form>
         </Popup>
@@ -730,81 +743,7 @@ export function BottomBar({
         />
       </>
     );
-  })
-  /* eslint-disable */
-
-  // const ParticipantsBTN = ({ isMobile, isTab }) => {
-  //   const { participants } = useMeeting();
-  //   return isMobile || isTab ? (
-  //     <MobileIconButton
-  //       tooltipTitle={"Participants"}
-  //       isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
-  //       buttonText={"Participants"}
-  //       disabledOpacity={1}
-  //       Icon={ParticipantsIcon}
-  //       onClick={() => {
-  //         setSideBarMode((s) =>
-  //           s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
-  //         );
-  //       }}
-  //       badge={`${new Map(participants)?.size}`}
-  //     />
-  //   ) : (
-  //     <OutlinedButton
-  //       Icon={ParticipantsIcon}
-  //       onClick={() => {
-  //         setSideBarMode((s) =>
-  //           s === sideBarModes.PARTICIPANTS ? null : sideBarModes.PARTICIPANTS
-  //         );
-  //       }}
-  //       isFocused={sideBarMode === sideBarModes.PARTICIPANTS}
-  //       tooltip={"View Participants"}
-  //       badge={`${new Map(participants)?.size}`}
-  //     />
-  //   );
-  // };
-
-  const MeetingIdCopyBTNContainer = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    height: 46px;
-    border-radius: 8px;
-    background: #FFF;
-    box-shadow: 0px 0px 2px 0px #C5CCD5;
-  `
-
-  const MeetingIdCopyTitle = styled.h1`
-    color: #5F6A77;
-  `
-
-  const MeetingIdCopyBTN = () => {
-    const { meetingId } = useMeeting();
-    const [isCopied, setIsCopied] = useState(false);
-    return (
-      <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0">
-        <MeetingIdCopyBTNContainer>
-          <MeetingIdCopyTitle>{meetingId}</MeetingIdCopyTitle>
-          <button
-            className="ml-2"
-            onClick={() => {
-              navigator.clipboard.writeText(meetingId);
-              setIsCopied(true);
-              setTimeout(() => {
-                setIsCopied(false);
-              }, 3000);
-            }}
-          >
-            {isCopied ? (
-              <CheckIcon className="h-5 w-5 text-green-400" />
-            ) : (
-              <ClipboardIcon className="h-5 w-5 text-gray-400" />
-            )}
-          </button>
-        </MeetingIdCopyBTNContainer>
-      </div>
-    );
-  };
+  });
 
   const tollTipEl = useRef();
   const isMobile = useIsMobile();
@@ -906,17 +845,7 @@ export function BottomBar({
                             ) : icon === BottomBarButtonTypes.CHAT ? (
                               <ChatBTN isMobile={isMobile} isTab={isTab} />
                             ) : icon === BottomBarButtonTypes.PARTICIPANTS ? (
-                              // <ParticipantsBTN
-                              //   isMobile={isMobile}
-                              //   isTab={isTab}
-                              // />
                               <></>
-                            ) : icon ===
-                              BottomBarButtonTypes.MEETING_ID_COPY ? (
-                              <MeetingIdCopyBTN
-                                isMobile={isMobile}
-                                isTab={isTab}
-                              />
                             ) : icon === BottomBarButtonTypes.PIP ? (
                               <PipBTN isMobile={isMobile} isTab={isTab} />
                             ) : null}
@@ -933,14 +862,12 @@ export function BottomBar({
       </Transition>
     </div>
   ) : (
-    <div 
-      className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden" 
-      style={{ 
-        background: "#F9FAFE" 
+    <div
+      className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden"
+      style={{
+        background: "#F9FAFE",
       }}
     >
-      <MeetingIdCopyBTN />
-
       <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
         <RecordingBTN />
         <RaiseHandBTN isMobile={isMobile} isTab={isTab} />
@@ -948,12 +875,10 @@ export function BottomBar({
         <WebCamBTN />
         <ScreenShareBTN isMobile={isMobile} isTab={isTab} />
         <PipBTN isMobile={isMobile} isTab={isTab} />
-        {/* <ChatBTN isMobile={isMobile} isTab={isTab} /> */}
         <SettingsBTN />
       </div>
       <div className="flex items-center justify-center">
         <LeaveBTN />
-        {/* <ParticipantsBTN isMobile={isMobile} isTab={isTab} /> */}
       </div>
     </div>
   );

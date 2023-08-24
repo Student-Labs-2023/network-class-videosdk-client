@@ -13,13 +13,16 @@ import { sideBarModes } from "../../utils/common";
 import styled from "styled-components";
 import participantsIcon from "../../icons/participants-gray.svg";
 
-const Container = styled.div``;
+const Container = styled.div`
+  border-left: 0.5px solid #d5dee8;
+  background: rgba(255, 255, 255, 0.95);
+`;
 
 const Topbar = styled.div`
-  margin-top: 30px;
+  margin-top: 25px;
   margin-bottom: 24px;
   display: flex;
-  width: calc(100% - 28px);
+  width: 100%;
   height: 34px;
   justify-content: space-between;
   align-items: center;
@@ -49,9 +52,8 @@ const SideBarTabView = ({
 
   return (
     <Container
-      className="bg-white"
       style={{
-        height: height,
+        height: "100%",
         width: sideBarContainerWidth,
         paddingTop: panelPadding,
         paddingLeft: panelPadding,
@@ -59,12 +61,11 @@ const SideBarTabView = ({
         paddingBottom: panelPadding,
       }}
     >
-      <div>
+      <div style={{ height: "100%" }}>
         <div
           className="bg-white"
           style={{
-            height: height,
-            // borderRadius: 10,
+            height: "100%",
             overflow: "hidden",
           }}
         >

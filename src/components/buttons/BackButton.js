@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import back from "../../icons/arrow-left.svg";
-import backActive from "../../icons/arrow-left-active.svg";
+import ArrowLeftIcon from "../../icons/JoinCallPage/ArrowLeftIcon";
+import ArrowLeftIconActive from "../../icons/JoinCallPage/ArrowLeftIconActive";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.a`
@@ -19,11 +19,6 @@ const Container = styled.a`
       color: #175ef1;
     }
   }
-`;
-
-const Icon = styled.img`
-  width: 26px;
-  height: 26px;
 `;
 
 const Text = styled.div`
@@ -44,7 +39,7 @@ export const BackButton = () => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <Icon src={hover ? backActive : back} />
+      {hover ? <ArrowLeftIconActive /> : <ArrowLeftIcon />}
       <Text>назад</Text>
     </Container>
   );
