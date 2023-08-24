@@ -23,7 +23,7 @@ const Paragraph = styled.div`
 
 export const EnterProfileButton = () => {
   function enterProfile() {
-    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}profile`;
+    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}/profile`;
   }
 
   return (

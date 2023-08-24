@@ -633,7 +633,7 @@ const LeaveBTN = ({ setIsMeetingLeft }) => {
   const { leave } = useMeeting();
 
   function toLobby() {
-    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}lobby`;
+    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}/lobby`;
   }
 
   return (
@@ -641,8 +641,8 @@ const LeaveBTN = ({ setIsMeetingLeft }) => {
       Icon={EndIcon}
       bgColor="#F95A39"
       onClick={() => {
-        leave();
         setIsMeetingLeft(true);
+        leave();
         toLobby();
       }}
       tooltip="Выйти"

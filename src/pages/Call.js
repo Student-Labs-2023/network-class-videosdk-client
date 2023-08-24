@@ -67,7 +67,7 @@ const Call = () => {
 
   return (
     <>
-      {isMeetingStarted ? (
+      {isMeetingStarted && !isMeetingLeft ? (
         <MeetingAppProvider
           selectedMic={selectedMic}
           selectedWebcam={selectedWebcam}

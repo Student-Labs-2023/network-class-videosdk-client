@@ -17,6 +17,7 @@ import { ButtonWithTooltip } from "../buttons/ButtonWithTooltip";
 import styles from "./styles.module.css";
 import { BackButton } from "../buttons/BackButton";
 import { CopyLink } from "../buttons/CopyLink";
+import { useRoomData } from "../../helpers/useRoomData";
 
 let volumeInterval;
 let analyser;
@@ -69,6 +70,8 @@ export function JoiningScreen({
   // const [stateEnter, setStateEnter] = useState("Занятие началось");
 
   const [countParts, setCountParts] = useState(0);
+
+  const room = useRoomData();
 
   useEffect(() => {
     getDevices({ micEnabled, webcamEnabled });
@@ -491,11 +494,8 @@ export function JoiningScreen({
                   style={{ height: "86px", borderRadius: "10px" }}
                 /> */}
                 <div>
-                  <div className={styles.title}>Математика 7 класс</div>
-                  <CopyLink />
+                  <div className={styles.title}>{room?.title}</div>
                 </div>
-                <div className={styles.owner}>Морозов Антон Дмитриевич</div>
-                <div className={styles.count}>{countParts} участников</div>
                 <div style={{ textAlign: "center" }}>
                   <MeetingDetailsScreen
                     participantName={participantName}
