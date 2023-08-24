@@ -40,6 +40,7 @@ import recordState from "./Settings/store/recordState";
 import nameState from "./Settings/store/nameState";
 import { useUserData } from "../../helpers/useUserData";
 import { useRoomData } from "../../helpers/useRoomData";
+import activeUserSharing from "./Settings/store/activeUserSharing";
 
 function PipBTN({ isMobile, isTab }) {
   const { pipMode, setPipMode } = useMeetingAppContext();
@@ -572,8 +573,20 @@ export function BottomBar({
     );
   };
 
-  const ScreenShareBTN = ({ isMobile, isTab }) => {
+  const ScreenShareBTNWrapper = observer(({ isMobile, isTab }) => {
+    return (
+      <ScreenShareBTN isMobile={isMobile} isTab={isTab} activeEmail={activeUserSharing.state} />
+    )
+  })
+
+  const ScreenShareBTN = ({ isMobile, isTab, activeEmail }) => {
     const { localScreenShareOn, toggleScreenShare, presenterId } = useMeeting();
+    const email = localStorage.getItem("email");
+  
+    if (activeEmail === email && localScreenShareOn === false) {
+      console.log(localScreenShareOn);
+      toggleScreenShare();
+    } 
 
     return isMobile || isTab ? (
       <MobileIconButton
@@ -640,7 +653,7 @@ export function BottomBar({
         onClick={() => {
           leave();
           setIsMeetingLeft(true);
-          toLobby();
+
         }}
         tooltip="Leave Meeting"
       />
@@ -873,7 +886,7 @@ export function BottomBar({
         <RaiseHandBTN isMobile={isMobile} isTab={isTab} />
         <MicBTN />
         <WebCamBTN />
-        <ScreenShareBTN isMobile={isMobile} isTab={isTab} />
+        <ScreenShareBTNWrapper isMobile={isMobile} isTab={isTab} />
         <PipBTN isMobile={isMobile} isTab={isTab} />
         <SettingsBTN />
       </div>

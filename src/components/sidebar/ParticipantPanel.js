@@ -11,6 +11,7 @@ import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import { nameTructed } from "../../utils/helper";
 import { useUserData } from "../../helpers/useUserData";
 import { useRoomData } from "../../helpers/useRoomData";
+import activeUserSharing from "../../meeting/components/Settings/store/activeUserSharing";
 
 function ParticipantListItem({ participantId, raisedHand }) {
   const { micOn, webcamOn, screenShareOn, displayName, isLocal } =
@@ -45,9 +46,9 @@ function ParticipantListItem({ participantId, raisedHand }) {
         <div className="m-1 p-1">
           {webcamOn ? <VideoCamOnIcon /> : <VideoCamOffIcon />}
         </div>
-        <div className="m-1 p-1">
+        <button onClick={() => activeUserSharing.on(user.email)} className="m-1 p-1">
           {screenShareOn ? <ScreenShareOnIcon /> : <ScreenShareOffIcon />}
-        </div>
+        </button>
       </div>
     </div>
   );
