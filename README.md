@@ -9,6 +9,17 @@ npm install --force
 
 npm run start
 
+# Переменные окружения
+Для корректной работы приложения потребуется настроить переменные окружения
+в корневой директории создайте файл .env
+
+REACT_APP_VIDEOSDK_TOKEN = ""
+REACT_APP_AUTH_URL = "https://network-class-server.ru/videosdk"
+REACT_APP_NETWORKCLASS_URL = "http://localhost:5173"
+SERVER_URL = "https://network-class-server.ru"
+
+скопируйте эти 4 строчки и вставьте в файл, который вы создали
+
 # Примечание
 при запуске проект автоматически открывается в браузере, закройте эту вкладку,
 если вы еще не запустили основное приложение, интструкция,
