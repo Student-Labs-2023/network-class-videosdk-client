@@ -1,7 +1,7 @@
 # Этот микрофронтенд отвечает за работу с видео
 
 # Для запуска потребуется 
-git clone https://github.com/Student-Labs-2023/network-class-videosdk-client
+git clone -b popup https://github.com/Student-Labs-2023/network-class-videosdk-client
 
 cd network-class-videosdk-client
 
