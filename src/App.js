@@ -6,7 +6,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Call />} />
+        <Route path='/react-rtc-demo' element={<Call />} />
       </Routes>
     </BrowserRouter>
   );
