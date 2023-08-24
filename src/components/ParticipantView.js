@@ -237,10 +237,10 @@ export const CornerDisplayName = ({
         <p className="text-sm text-white ml-0.5">
           {isPresenting
             ? isLocal
-              ? `You are presenting`
-              : `${nameTructed(displayName, 15)} is presenting`
+              ? `Вы демонстрируете экран`
+              : `${nameTructed(displayName, 15)} демонстрирует экран`
             : isLocal
-            ? "You"
+            ? "Вы"
             : nameTructed(displayName, 26)}
         </p>
       </div>
