@@ -25,6 +25,8 @@ import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
 import Popup from "../../components/Popup";
 import Header from "./Settings/Header";
+import { useParticipant } from "@videosdk.live/react-sdk";
+import microphone from "../store/microphone";
 
 import styled from "styled-components";
 import SubmitButton from "./Settings/ui/SubmitButton";
@@ -281,23 +283,23 @@ const MicBTN = ({ selectMicDeviceId, setSelectMicDeviceId }) => {
     setTooltipShow(false);
   };
 
-  function toggleMic() {
-    if (room.micro_for === "all") {
-      mMeeting.toggleMic();
+    function toggleMic() {
+      if (room.micro_for === 'all') {
+        mMeeting.toggleMic();
+      }
+      if (user.role === 'owner') {
+        mMeeting.toggleMic();
+      }
     }
-    if (user.role === "owner") {
-      mMeeting.toggleMic();
-    }
-  }
 
-  // автоматичексое отключения микро юзерам, если разрешение имеет только owner
-  if (
-    room.micro_for === "owner" &&
-    user.role !== "owner" &&
-    mMeeting.localMicOn
-  ) {
-    mMeeting.toggleMic();
-  }
+    // автоматичексое отключения микро юзерам, если разрешение имеет только owner
+    if (
+      room.micro_for === "owner" &&
+      user.role !== "owner" &&
+      mMeeting.localMicOn
+    ) {
+      mMeeting.toggleMic();
+    }
 
   return (
     <>
@@ -694,22 +696,22 @@ const SettingsBTN = observer(() => {
       micro_for: microState.state,
     };
 
-    fetch(
-      `https://network-class-server.ru/user_channels/setting/${roomId}/${email}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(updatedSettings),
-      }
-    )
-      .then((response) => response.text())
-      .then((response) => {
-        response = JSON.parse(response);
-        console.log(response);
-      });
-  }
+      fetch(
+        `https://network-class-server.ru/user_channels/setting/${roomId}/${email}`,
+        {
+          method : 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body : JSON.stringify(updatedSettings),
+        }
+      )
+        .then((response) => response.text())
+        .then((response) => {
+          response = JSON.parse(response);
+          console.log(response);
+        });
+    }
 
   return (
     <>

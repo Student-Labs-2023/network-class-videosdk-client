@@ -2,7 +2,7 @@ import { usePubSub } from "@videosdk.live/react-sdk";
 import React, { useRef, useState } from "react";
 import { styled } from "styled-components";
 import EmojiPicker from "emoji-picker-react";
-import emojiIcon from "../../icons/emoji.svg";
+import EmojiIcon from "../../icons/Sidebar/EmojiIcon";
 
 const Input = styled.input`
   background: white;
@@ -87,7 +87,7 @@ export const ChatInput = () => {
             setEmojiActive(!prev);
           }}
         >
-          <img src={emojiIcon} alt="" />
+          <EmojiIcon/>
         </Emoji>
         <EmojiList
           style={

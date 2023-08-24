@@ -11,7 +11,7 @@ import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import { sideBarModes } from "../../utils/common";
 
 import styled from "styled-components";
-import participantsIcon from "../../icons/participants-gray.svg";
+import ParticipantsGrayIcon from "../../icons/Sidebar/ParticipantsGrayIcon";
 
 const Container = styled.div`
   border-left: 0.5px solid #d5dee8;
@@ -228,11 +228,7 @@ const SideBarTabView = ({
                     isFocused={sideBarMode === "CHAT"}
                     tooltip="View Chat"
                   >
-                    <img
-                      src={participantsIcon}
-                      alt=""
-                      style={{ width: "34px", height: "34px" }}
-                    />
+                    <ParticipantsGrayIcon/>
                   </button>
                 </Topbar>
                 <ChatPanel panelHeight={panelHeight} />
