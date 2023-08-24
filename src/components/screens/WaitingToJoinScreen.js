@@ -3,6 +3,13 @@ import animationData from "../../../src/static/animations/join_meeting.json";
 import Lottie from "lottie-react";
 import useIsTab from "../../hooks/useIsTab";
 import useIsMobile from "../../hooks/useIsMobile";
+import styled from "styled-components";
+import loader from "../../icons/loader.mp4";
+
+const Gif = styled.video`
+  width: 200px;
+  height: 200px;
+`;
 
 const WaitingToJoinScreen = () => {
   const waitingMessages = [
@@ -47,31 +54,10 @@ const WaitingToJoinScreen = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
-        // backgroundColor: theme.palette.darkTheme.main,
+        width: "100vw",
       }}
     >
-      <div className="flex flex-col">
-        <div
-          style={{
-            height: isTab ? 200 : isMobile ? 200 : 250,
-            width: isTab ? 200 : isMobile ? 200 : 250,
-          }}
-        >
-          <Lottie
-            loop={animationDefaultOptions.loop}
-            autoplay={animationDefaultOptions.autoplay}
-            animationData={animationDefaultOptions.animationData}
-            rendererSettings={{
-              preserveAspectRatio:
-                animationDefaultOptions.rendererSettings.preserveAspectRatio,
-            }}
-            style={{ height: "100%", width: "100%" }}
-          />
-        </div>
-        <h1 className="text-white text-center font-bold mt-1 text-xl">
-          {message.text}
-        </h1>
-      </div>
+      <Gif src={loader} autoPlay></Gif>
     </div>
   );
 };

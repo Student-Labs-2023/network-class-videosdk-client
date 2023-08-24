@@ -14,6 +14,7 @@ const Call = () => {
   const [webcamOn, setWebcamOn] = useState(true);
   const [selectedMic, setSelectedMic] = useState({ id: null });
   const [selectedWebcam, setSelectedWebcam] = useState({ id: null });
+  const [selectedAudio, setSelectedAudio] = useState({ id: null });
   const [selectWebcamDeviceId, setSelectWebcamDeviceId] = useState(
     selectedWebcam.id
   );
@@ -35,16 +36,38 @@ const Call = () => {
   }, [isMobile]);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [user, setUser] = useState({});
 
   const email = searchParams.get("email");
   const roomId = searchParams.get("roomId");
 
   localStorage.setItem("email", email);
   localStorage.setItem("roomId", roomId);
-  
+
+  async function connectRoom() {
+    await fetch(
+      `https://network-class-server.ru/user_channels/connect?email=${email}&channel_id=${roomId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.text())
+      .then((response) => {
+        response = JSON.parse(response);
+        setUser(response);
+      });
+  }
+
+  useEffect(() => {
+    connectRoom();
+  }, []);
+
   return (
     <>
-      {isMeetingStarted ? (
+      {isMeetingStarted && !isMeetingLeft ? (
         <MeetingAppProvider
           selectedMic={selectedMic}
           selectedWebcam={selectedWebcam}
@@ -56,7 +79,7 @@ const Call = () => {
               meetingId,
               micEnabled: micOn,
               webcamEnabled: webcamOn,
-              name: participantName ? participantName : "TestUser",
+              name: user.name_channel ? user.name_channel : "TestUser",
               mode: meetingMode,
               multiStream: true,
             }}
@@ -85,8 +108,6 @@ const Call = () => {
             />
           </MeetingProvider>
         </MeetingAppProvider>
-      ) : isMeetingLeft ? (
-        <LeaveScreen setIsMeetingLeft={setIsMeetingLeft} />
       ) : (
         <JoiningScreen
           participantName={participantName}
@@ -98,6 +119,7 @@ const Call = () => {
           webcamEnabled={webcamOn}
           setSelectedMic={setSelectedMic}
           setSelectedWebcam={setSelectedWebcam}
+          setSelectedAudio={setSelectedAudio}
           setWebcamOn={setWebcamOn}
           onClickStartMeeting={() => {
             setMeetingStarted(true);

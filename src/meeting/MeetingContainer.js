@@ -28,7 +28,7 @@ export function MeetingContainer({
   micEnabled,
   webcamEnabled,
 }) {
-  const { useRaisedHandParticipants } = useMeetingAppContext();
+  const { useRaisedHandParticipants, sideBarMode } = useMeetingAppContext();
   const { getVideoTrack } = useMediaStream();
 
   const topBarHeight = 51;
@@ -263,12 +263,16 @@ export function MeetingContainer({
   });
 
   return (
-    <div className="fixed inset-0">
-      <div ref={containerRef} className="h-full flex flex-col bg-white">
+    <div className="flex" style={{ height: "100vh" }}>
+      <div
+        ref={containerRef}
+        className="h-full flex-1 flex flex-col bg-white"
+        style={{ transition: "all 0.3s ease-out" }}
+      >
         {typeof localParticipantAllowedJoin === "boolean" ? (
           localParticipantAllowedJoin ? (
             <>
-              <TopBar/>
+              <TopBar />
               <div className={` flex flex-1 flex-row bg-white `}>
                 <div className={`flex flex-1 `}>
                   {isPresenting ? (
@@ -278,11 +282,6 @@ export function MeetingContainer({
                     <MemorizedParticipantView isPresenting={isPresenting} />
                   )}
                 </div>
-
-                <SidebarConatiner
-                  height={containerHeight - bottomBarHeight - 51}
-                  sideBarContainerWidth={sideBarContainerWidth}
-                />
               </div>
 
               <BottomBar
@@ -310,7 +309,11 @@ export function MeetingContainer({
           subTitle={meetingError.message}
         />
       </div>
-      <ShowParticipants/>
+      {!sideBarMode && localParticipantAllowedJoin && <ShowParticipants />}
+      <SidebarConatiner
+        height={containerHeight}
+        sideBarContainerWidth={sideBarContainerWidth}
+      />
     </div>
   );
 }

@@ -32,9 +32,10 @@ export function MeetingDetailsScreen({
   const [isCopied, setIsCopied] = useState(false);
   const [iscreateMeetingClicked, setIscreateMeetingClicked] = useState(false);
   const [isJoinMeetingClicked, setIsJoinMeetingClicked] = useState(false);
-  const [meetId, setMeetId] = useState("'");
+  const [meetId, setMeetId] = useState("");
 
   const roomId = localStorage.getItem("roomId"); 
+  const email = localStorage.getItem("email");
 
   useEffect(() => {
     fetch(`https://network-class-server.ru/channels/${roomId}`, {
@@ -53,7 +54,7 @@ export function MeetingDetailsScreen({
   return (
     <>
     <div
-      className={`flex flex-1 flex-col justify-center w-full md:p-[6px] sm:p-1 p-1.5`}
+      className={`flex flex-1 flex-col justify-center w-full`}
     >
       {iscreateMeetingClicked ? (
         <div className="border border-solid border-gray-400 rounded-xl px-4 py-3  flex items-center justify-center">
