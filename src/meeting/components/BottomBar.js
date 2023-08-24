@@ -147,8 +147,8 @@ function PipBTN({ isMobile, isTab }) {
   return isMobile || isTab ? (
     <MobileIconButton
       id="pip-btn"
-      tooltipTitle={pipMode ? "Stop PiP" : "Start Pip"}
-      buttonText={pipMode ? "Stop PiP" : "Start Pip"}
+      tooltipTitle={pipMode ? "Закрыть" : "Открыть"}
+      buttonText={pipMode ? "Картинка в картинке" : "Картинка в картинке"}
       isFocused={pipMode}
       Icon={PipIcon}
       onClick={() => {
@@ -163,7 +163,7 @@ function PipBTN({ isMobile, isTab }) {
         togglePipMode();
       }}
       isFocused={pipMode}
-      tooltip={pipMode ? "Stop PiP" : "Start Pip"}
+      tooltip={pipMode ? "Картинка в картинке" : "Картинка в картинке"}
       disabled={false}
     />
   );
@@ -178,15 +178,15 @@ const RaiseHandBTN = ({ isMobile, isTab }) => {
   return isMobile || isTab ? (
     <MobileIconButton
       id="RaiseHandBTN"
-      tooltipTitle={"Raise hand"}
+      tooltipTitle={"Поднять руку"}
       Icon={RaiseHandIcon}
       onClick={RaiseHand}
-      buttonText={"Raise Hand"}
+      buttonText={"Поднять руку"}
     />
   ) : (
     <OutlinedButton
       onClick={RaiseHand}
-      tooltip={"Raise Hand"}
+      tooltip={"Поднять руку"}
       Icon={RaiseHandIcon}
     />
   );
@@ -238,14 +238,14 @@ const RecordingBTN = () => {
       isFocused={isRecording}
       tooltip={
         recordingState === Constants.recordingEvents.RECORDING_STARTED
-          ? "Stop Recording"
+          ? "Остановить запись"
           : recordingState === Constants.recordingEvents.RECORDING_STARTING
-          ? "Starting Recording"
+          ? "Запись начинается"
           : recordingState === Constants.recordingEvents.RECORDING_STOPPED
-          ? "Start Recording"
+          ? "Начать запись"
           : recordingState === Constants.recordingEvents.RECORDING_STOPPING
-          ? "Stopping Recording"
-          : "Start Recording"
+          ? "Запись останавливается"
+          : "Начать запись"
       }
       lottieOption={isRecording ? defaultOptions : null}
       isRequestProcessing={isRequestProcessing}
@@ -291,14 +291,14 @@ const MicBTN = observer(({ selectMicDeviceId, setSelectMicDeviceId }) => {
       }
     }
 
-    // автоматичексое отключения микро юзерам, если разрешение имеет только owner
-    if (
-      room.micro_for === "owner" &&
-      user.role !== "owner" &&
-      mMeeting.localMicOn
-    ) {
-      mMeeting.toggleMic();
-    }
+  // автоматичексое отключения микро юзерам, если разрешение имеет только owner
+  if (
+    room.micro_for === "owner" &&
+    user.role !== "owner" &&
+    mMeeting.localMicOn
+  ) {
+    mMeeting.toggleMic();
+  }
 
     useEffect(() => {
       console.log(mic.state);
@@ -309,11 +309,10 @@ const MicBTN = observer(({ selectMicDeviceId, setSelectMicDeviceId }) => {
       <OutlinedButton
         Icon={localMicOn ? MicOnIcon : MicOffIcon}
         onClick={toggleMic}
-        bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
         borderColor={localMicOn && "#ffffff33"}
         isFocused={localMicOn}
         focusIconColor={localMicOn && "white"}
-        tooltip={"Toggle Mic"}
+        tooltip={localMicOn ? "Выключить микрофон" : "Включить микрофон"}
         renderRightComponent={() => {
           return (
             <>
@@ -337,6 +336,7 @@ const MicBTN = observer(({ selectMicDeviceId, setSelectMicDeviceId }) => {
                               color: mMeeting.localMicOn
                                 ? "#5F6A77"
                                 : "#5F6A77",
+                              background: "white",
                             }}
                           />
                         </button>
@@ -401,7 +401,7 @@ const MicBTN = observer(({ selectMicDeviceId, setSelectMicDeviceId }) => {
                 ref={tooltipRef}
               >
                 <div className={"rounded-md p-1.5 bg-black "}>
-                  <p className="text-base text-white ">{"Change microphone"}</p>
+                  <p className="text-base text-white ">{"Изменить микрофон"}</p>
                 </div>
               </div>
             </>
@@ -463,11 +463,10 @@ const WebCamBTN = ({ setSelectWebcamDeviceId }) => {
           }
           mMeeting.toggleWebcam(track);
         }}
-        bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
         borderColor={localWebcamOn && "#ffffff33"}
         isFocused={localWebcamOn}
         focusIconColor={localWebcamOn && "white"}
-        tooltip={"Toggle Webcam"}
+        tooltip={localWebcamOn ? "Выключить камеру" : "Включить камеру"}
         renderRightComponent={() => {
           return (
             <>
@@ -489,6 +488,7 @@ const WebCamBTN = ({ setSelectWebcamDeviceId }) => {
                             className="h-4 w-4"
                             style={{
                               color: localWebcamOn ? "#5F6A77" : "#5F6A77",
+                              background: "white",
                             }}
                           />
                         </button>
@@ -561,7 +561,7 @@ const WebCamBTN = ({ setSelectWebcamDeviceId }) => {
                 ref={tooltipRef}
               >
                 <div className={"rounded-md p-1.5 bg-black "}>
-                  <p className="text-base text-white ">{"Change webcam"}</p>
+                  <p className="text-base text-white ">{"Изменить камеру"}</p>
                 </div>
               </div>
             </>
@@ -604,16 +604,16 @@ const ScreenShareBTN = observer(({ isMobile, isTab, activeEmail }) => {
       tooltipTitle={
         presenterId
           ? localScreenShareOn
-            ? "Stop Presenting"
+            ? "Остановить демонстрацию"
             : null
-          : "Present Screen"
+          : "Демонстрировать экран"
       }
       buttonText={
         presenterId
           ? localScreenShareOn
-            ? "Stop Presenting"
+            ? "Демонстрация"
             : null
-          : "Present Screen"
+          : "Демонстрация"
       }
       isFocused={localScreenShareOn}
       Icon={ScreenShareIcon}
@@ -640,9 +640,9 @@ const ScreenShareBTN = observer(({ isMobile, isTab, activeEmail }) => {
       tooltip={
         presenterId
           ? localScreenShareOn
-            ? "Stop Presenting"
+            ? "Остановить демонстрацию"
             : null
-          : "Present Screen"
+          : "Демонстрировать экран"
       }
       disabled={presenterId ? (localScreenShareOn ? false : true) : false}
     />
@@ -653,7 +653,7 @@ const LeaveBTN = ({ setIsMeetingLeft }) => {
   const { leave } = useMeeting();
 
   function toLobby() {
-    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}lobby`;
+    window.location.href = `${process.env.REACT_APP_NETWORKCLASS_URL}/lobby`;
   }
 
   return (
@@ -661,11 +661,11 @@ const LeaveBTN = ({ setIsMeetingLeft }) => {
       Icon={EndIcon}
       bgColor="#F95A39"
       onClick={() => {
-        leave();
         setIsMeetingLeft(true);
+        leave();
         toLobby();
       }}
-      tooltip="Leave Meeting"
+      tooltip="Выйти"
     />
   );
 };
@@ -674,8 +674,8 @@ const ChatBTN = ({ isMobile, isTab }) => {
   const { sideBarMode, setSideBarMode } = useMeetingAppContext();
   return isMobile || isTab ? (
     <MobileIconButton
-      tooltipTitle={"Chat"}
-      buttonText={"Chat"}
+      tooltipTitle={"Открыть чат"}
+      buttonText={"Чат"}
       Icon={ChatIcon}
       isFocused={sideBarMode === sideBarModes.CHAT}
       onClick={() => {
@@ -693,7 +693,7 @@ const ChatBTN = ({ isMobile, isTab }) => {
         );
       }}
       isFocused={sideBarMode === "CHAT"}
-      tooltip="View Chat"
+      tooltip="Открыть чат"
     />
   );
 };
@@ -757,7 +757,7 @@ const SettingsBTN = observer(() => {
         onClick={() => {
           setPopupActive(true);
         }}
-        tooltip="открыть настройки"
+        tooltip="Открыть настройки"
       />
     </>
   );
@@ -819,101 +819,120 @@ export function BottomBar({
     { icon: BottomBarButtonTypes.MEETING_ID_COPY },
   ];
 
-  return isMobile || isTab ? (
+  return isMobile ? (
     <div
-      className="flex items-center justify-center"
-      style={{ height: bottomBarHeight }}
+      className="flex items-center"
+      style={{
+        height: bottomBarHeight,
+        borderTop: "0.5px solid #D5DEE8",
+        background: "#F9FAFE",
+        paddingLeft: "20px",
+        justifyContent: "space-between",
+      }}
     >
-      <LeaveBTN />
-      <MicBTN
-        selectMicDeviceId={selectMicDeviceId}
-        setSelectMicDeviceId={setSelectMicDeviceId}
-      />
-      <WebCamBTN setSelectWebcamDeviceId={setSelectWebcamDeviceId} />
-      <RecordingBTN />
-      <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} />
-      <Transition appear show={Boolean(open)} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative"
-          style={{ zIndex: 9999 }}
-          onClose={handleCloseFAB}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+      <div className="flex items-center">
+        <MicBTN
+          selectMicDeviceId={selectMicDeviceId}
+          setSelectMicDeviceId={setSelectMicDeviceId}
+        />
+        <WebCamBTN setSelectWebcamDeviceId={setSelectWebcamDeviceId} />
+      </div>
+      <div className="flex items-center">
+        <RecordingBTN />
+        <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} />
+        <Transition appear show={Boolean(open)} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative"
+            style={{ zIndex: 9999 }}
+            onClose={handleCloseFAB}
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="translate-y-full opacity-0 scale-95"
-            enterTo="translate-y-0 opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="translate-y-0 opacity-100 scale-100"
-            leaveTo="translate-y-full opacity-0 scale-95"
-          >
-            <div className="fixed inset-0 overflow-y-hidden">
-              <div className="flex h-full items-end justify-end text-center">
-                <Dialog.Panel className="w-screen transform overflow-hidden bg-gray-800 shadow-xl transition-all">
-                  <div className="grid container bg-gray-800 py-6">
-                    <div className="grid grid-cols-12 gap-2">
-                      {otherFeatures.map(({ icon }) => {
-                        return (
-                          <div
-                            className={`grid items-center justify-center ${
-                              icon === BottomBarButtonTypes.MEETING_ID_COPY
-                                ? "col-span-7 sm:col-span-5 md:col-span-3"
-                                : "col-span-4 sm:col-span-3 md:col-span-2"
-                            }`}
-                          >
-                            {icon === BottomBarButtonTypes.RAISE_HAND ? (
-                              <RaiseHandBTN isMobile={isMobile} isTab={isTab} />
-                            ) : icon === BottomBarButtonTypes.SCREEN_SHARE ? (
-                              <ScreenShareBTN
-                                isMobile={isMobile}
-                                isTab={isTab}
-                              />
-                            ) : icon === BottomBarButtonTypes.CHAT ? (
-                              <ChatBTN isMobile={isMobile} isTab={isTab} />
-                            ) : icon === BottomBarButtonTypes.PARTICIPANTS ? (
-                              <></>
-                            ) : icon === BottomBarButtonTypes.PIP ? (
-                              <PipBTN isMobile={isMobile} isTab={isTab} />
-                            ) : null}
-                          </div>
-                        );
-                      })}
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="translate-y-full opacity-0 scale-95"
+              enterTo="translate-y-0 opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="translate-y-0 opacity-100 scale-100"
+              leaveTo="translate-y-full opacity-0 scale-95"
+            >
+              <div className="fixed inset-0 overflow-y-hidden">
+                <div className="flex h-full items-end justify-end text-center">
+                  <Dialog.Panel className="w-screen transform overflow-hidden bg-gray-800 shadow-xl transition-all">
+                    <div className="grid container bg-gray-800 py-6">
+                      <div className="grid grid-cols-12 gap-2">
+                        {otherFeatures.map(({ icon }) => {
+                          return (
+                            <div
+                              className={`grid items-center justify-center ${
+                                icon === BottomBarButtonTypes.MEETING_ID_COPY
+                                  ? "col-span-7 sm:col-span-5 md:col-span-3"
+                                  : "col-span-4 sm:col-span-3 md:col-span-2"
+                              }`}
+                            >
+                              {icon === BottomBarButtonTypes.RAISE_HAND ? (
+                                <RaiseHandBTN
+                                  isMobile={isMobile}
+                                  isTab={isTab}
+                                />
+                              ) : icon === BottomBarButtonTypes.SCREEN_SHARE ? (
+                                <ScreenShareBTN
+                                  isMobile={isMobile}
+                                  isTab={isTab}
+                                />
+                              ) : icon === BottomBarButtonTypes.CHAT ? (
+                                <ChatBTN isMobile={isMobile} isTab={isTab} />
+                              ) : icon === BottomBarButtonTypes.PARTICIPANTS ? (
+                                <></>
+                              ) : icon === BottomBarButtonTypes.PIP ? (
+                                <PipBTN isMobile={isMobile} isTab={isTab} />
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                </Dialog.Panel>
+                  </Dialog.Panel>
+                </div>
               </div>
-            </div>
-          </Transition.Child>
-        </Dialog>
-      </Transition>
+            </Transition.Child>
+          </Dialog>
+        </Transition>
+      </div>
+      <LeaveBTN />
     </div>
   ) : (
     <div
-      className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden"
+      className="md:flex lg:px-2 xl:px-6 px-2 hidden"
       style={{
         background: "#F9FAFE",
+        paddingLeft: "50px",
+        borderTop: "0.5px solid #D5DEE8",
+        height: bottomBarHeight,
+        justifyContent: "space-between",
       }}
     >
-      <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
-        <RecordingBTN />
-        <RaiseHandBTN isMobile={isMobile} isTab={isTab} />
+      <div className="flex items-center justify-center">
         <MicBTN />
         <WebCamBTN />
-        <ScreenShareBTNWrapper isMobile={isMobile} isTab={isTab} />
-        <PipBTN isMobile={isMobile} isTab={isTab} />
+      </div>
+      <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
+        <RaiseHandBTN isMobile={isMobile} />
+        <ScreenShareBTNWrapper isMobile={isMobile} />
+        <RecordingBTN />
+        <PipBTN isMobile={isMobile} />
         <SettingsBTN />
       </div>
       <div className="flex items-center justify-center">

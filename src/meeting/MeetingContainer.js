@@ -309,7 +309,7 @@ export function MeetingContainer({
           subTitle={meetingError.message}
         />
       </div>
-      {!sideBarMode && <ShowParticipants />}
+      {!sideBarMode && localParticipantAllowedJoin && <ShowParticipants />}
       <SidebarConatiner
         height={containerHeight}
         sideBarContainerWidth={sideBarContainerWidth}

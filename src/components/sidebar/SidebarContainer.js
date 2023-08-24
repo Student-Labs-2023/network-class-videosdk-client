@@ -228,7 +228,7 @@ const SideBarTabView = ({
                     isFocused={sideBarMode === "CHAT"}
                     tooltip="View Chat"
                   >
-                    <ParticipantsGrayIcon/>
+                    <ParticipantsGrayIcon />
                   </button>
                 </Topbar>
                 <ChatPanel panelHeight={panelHeight} />
@@ -312,12 +312,14 @@ export function SidebarConatiner({
             leaveTo="translate-y-full opacity-0 scale-95"
           >
             <div className="fixed inset-0 overflow-y-hidden">
-              <div className="flex h-screen items-center justify-center text-center">
-                <Dialog.Panel className="w-screen transform overflow-hidden bg-white shadow-xl transition-all">
+              <div className="flex items-center justify-center text-center">
+                <Dialog.Panel className="w-screen transform bg-white shadow-xl transition-all h-screen">
                   <SideBarTabView
-                    height={"100%"}
+                    height={paddedHeight}
                     sideBarContainerWidth={"100%"}
-                    panelHeight={height}
+                    panelHeight={
+                      paddedHeight - panelHeaderHeight - panelHeaderPadding - 5
+                    }
                     raisedHandsParticipants={raisedHandsParticipants}
                     panelHeaderHeight={panelHeaderHeight}
                     panelHeaderPadding={panelHeaderPadding}
