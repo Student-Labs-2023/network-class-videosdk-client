@@ -14,8 +14,11 @@ npm run start
 в корневой директории создайте файл .env
 
 REACT_APP_VIDEOSDK_TOKEN = ""
+
 REACT_APP_AUTH_URL = "https://network-class-server.ru/videosdk"
+
 REACT_APP_NETWORKCLASS_URL = "http://localhost:5173"
+
 SERVER_URL = "https://network-class-server.ru"
 
 скопируйте эти 4 строчки и вставьте в файл, который вы создали
